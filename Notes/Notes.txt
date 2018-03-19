@@ -13,3 +13,11 @@ set orgin: https://stackoverflow.com/questions/42830557/git-remote-add-origin-vs
     `git commit -m 'initial commit!'`
     `git pull origin master`
     `git push --set-upstream origin master`
+
+NEW INSTRUCTIONS:
+git init
+git add . //(delete node_modules)
+git commit -m "first commit"
+git remote set-url origin https://github.com/kevindanikowski/my_repo.git
+git push -u origin master
+input your username and password
