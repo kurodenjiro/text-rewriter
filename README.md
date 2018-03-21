@@ -29,6 +29,6 @@ English Text (start lang) => Processing Languages (start lang => spanish => poli
 This app was created in a short time frame, features are being added, tests need to be fully developed, they have been tested on another version of the app but the code has since changed. The code will be better revised soon to be cleaner.
 
 ## Author Info
-Author: Kevin Danikowski
-Contact: kevind@ota.ai
-Copywrite Kevin Danikowski 2018
+- Author: Kevin Danikowski
+- Contact: kevind@ota.ai
+- Copyright Kevin Danikowski 2018
