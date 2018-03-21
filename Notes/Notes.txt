@@ -25,7 +25,7 @@ input your username and password
 Updating:
 git add .
 git commit -m "message"
-git push -u origin master
+git push -u origin master ***only need to use -u once to set upstream so it knows where to pull from***
 
 removing idea folder:
 git rm -r one-of-the-directories

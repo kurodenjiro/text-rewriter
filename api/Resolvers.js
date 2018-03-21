@@ -59,11 +59,25 @@ export default {
                 next()
             })
         },
-        rateRewrite: (_, data) => {
+        rateRewrite: async (_, data) => {
+            //data: { language: 'en', processingLanguages: ['es', 'pl'], rating: 3, translator: 'google', wordCount: 263}
+            // https://stackoverflow.com/questions/41860792/how-can-i-have-a-datatype-of-array-in-mysql-sequelize-instance
+            //https://stackoverflow.com/questions/25565212/how-to-define-array-of-objects-in-sequelize-js
+            console.log(data)
+            db.models.languageCombination.findOrCreate({
+                where: {
+                    processingLanguages: data.processingLanguages,
+                    language: data.language,
+                    translator: data.translator
+                }
+            }).then(async (languageCombinations, createdNewLanguageCombination) => {
+                console.log(languageCombinations, createdNewLanguageCombination)
+            })
             return Object.assign({},
                 {
-                    origional: 'text',
-                    translated: 'texto'
+                    languageCombinationId: '1234',
+                    rating: 3,
+                    wordCount: 263
                 })
         }
     }

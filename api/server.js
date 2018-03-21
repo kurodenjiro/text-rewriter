@@ -22,7 +22,7 @@ app.use(
         graphiql: true,
     })),
 );
-app.listen(3334);
-console.log('Running a GraphQL API server at http://localhost:3334/graphql');
+app.listen(3335);
+console.log('Running a GraphQL API server at http://localhost:3335/graphql');
 
 // Exmaple from https://github.com/marmelab/GraphQL-example/tree/master/server/src
