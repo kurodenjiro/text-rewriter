@@ -14,10 +14,10 @@ Addons:
 - (future) Machine learning thesaurus library/suggestions
 
 ## App Build
-Languages (javascript)
-Frontend (React, graphql)
-Backend (node, express, mysql, graphql)
-Testing (mocha, enzyme, chai)
+- Languages (javascript)
+- Frontend (React, graphql)
+- Backend (node, express, mysql, graphql)
+- Testing (mocha, enzyme, chai)
 
 # Features to be added
 - Finish rating system to find best processing language combo
