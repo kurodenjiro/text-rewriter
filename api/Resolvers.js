@@ -7,40 +7,30 @@ const translate = require('google-translate-api')
 
 export default {
     Query: {
-        Ratings: () => {
-            return db.models.user.findAll({
-                include: [{ model: db.models.todo }]
-            }).then(users => {
-                return users.map(user=>{
+        LanguageCombinations: () => {
+            return db.models.languageCombination.findAll({
+                include: [{ model: db.models.rating }]
+            }).then(languageCombinations => {
+                return languageCombinations.map(languageCombination=>{
                     return Object.assign({},
                         {
-                            id: user.id,
-                            name: user.name,
-                            todos: user.todos.map(todo=>{
-                                return Object.assign({},
-                                    {
-                                        id: todo.id,
-                                        task: todo.task,
-                                        finished: todo.finished
-                                    }
-                                )
+                            id: languageCombination.id,
+                            processingLanguages: languageCombination.processingLanguages,
                         })}
                     )
                 })
-            })
         }
     },
     Mutation: {
+        //TODO SWITCH OUT CONTRACTIONS
         //TODO THESAURUS SHOULD BE ADDED AFTER REWRITE IF THERE ARE SIMILAR MATCHES OR WHAT NOT
         rewrite: async (_, data) => {
-            console.log('data is... ', data)
             const textToRewrite = data.text
             const baseLanguage = (data.language) ? data.language: 'en'
             const processingLanguages = (data.processingLanguages && data.processingLanguages.length > 0) ? data.processingLanguages : ['es']
             await processingLanguages.push('en')
 
             let processedRewrite = textToRewrite
-            console.log(processingLanguages)
             return new Promise((resolve, reject) => {
                 let index = 0
 
@@ -59,7 +49,6 @@ export default {
                         })
                     } else {
                         //TODO DEAL WITH THESAURUS HERE
-                        console.log('about to respond with ', textToRewrite, ' and ', processedRewrite)
                         resolve(Object.assign({},
                             {
                                 text: textToRewrite,
@@ -69,26 +58,6 @@ export default {
                 }
                 next()
             })
-
-            // Promise.all(processingLanguages.map(async (language, index)=>{
-            //     const startLanguage = (index === 0)? baseLanguage : processingLanguages[index - 1]
-            //     /* res.text , res.from.text.autoCorrected , res.from.text.value , res.from.text.didYouMean , res.from.language.iso (detecting) */
-            //     await translate(processedRewrite, {from: startLanguage, to: language}).then(res => {
-            //         console.log('translating from '+startLanguage+' to '+language)
-            //         console.log(processedRewrite+' ...became... '+res.text)
-            //         processedRewrite = res.text
-            //     }).catch(err => {
-            //         console.error(err);
-            //     });
-            // })).then(() => {
-            //     console.log('about to respond with ', textToRewrite, ' and ', processedRewrite)
-            //     return Object.assign({},
-            //         {
-            //             text: textToRewrite,
-            //             rewrite: processedRewrite
-            //         })
-            // })
-
         },
         rateRewrite: (_, data) => {
             return Object.assign({},

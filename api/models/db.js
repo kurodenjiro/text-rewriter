@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize'
-/*
+
+/* Use Mysql directly
 const connection = mysql.createConnection({
     host: 'wtm-lnx-2.m2', //use wtm-lnx-2.m2
     user: 'u_kdanikowski', // use u_kdanikowski
@@ -7,7 +8,7 @@ const connection = mysql.createConnection({
     database: 'x_kevinsdb_test', //use x_kevinsdb_test
     port: 3306 //use 3306
 })
- */
+*/
 /* DB NOTES AND SCHEMAS
 votes of one language into anther - save success of translation 1-5
 option for multiple languages, option to see what it translated it into
@@ -27,27 +28,29 @@ const Conn = new Sequelize('x_kevinsdb_test', 'u_kdanikowski', 'Ud0b0K0MGd4k7TM6
         idle: 10000
     },
 })
-const userNameList = ['tina', 'dave', 'peter', 'rosali', 'edgar', 'pricilla', 'dominic', 'heather']
-const User = Conn.define('user',{
-    name: {
-        type: Sequelize.STRING
+const Rating = Conn.define('rating',{
+    rating: {
+        type: Sequelize.INTEGER
+    },
+    wordCount: {
+        type: Sequelize.INTEGER
     }
 })
-const ToDo = Conn.define('todo', {
-    task: {
-        type: Sequelize.STRING,
-        allowNull: true
+const LanguageCombination = Conn.define('languageCombination',{
+    processingLanguages: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
     },
-    finished: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true,
-        defaultValue: false
-    }
+    language: {
+        type: Sequelize.STRING
+    },
+    translator: {
+        type: Sequelize.STRING
+    },
 })
 
 /*   Relations   */
-User.hasMany(ToDo)
-ToDo.belongsTo(User)
+LanguageCombination.hasMany(Rating)
+Rating.belongsTo(LanguageCombination)
 //doing joins https://lorenstewart.me/2016/09/12/sequelize-table-associations-joins/
 
 // Conn.sync({force: true}).then(()=>{ //forces tables to be overwritten

@@ -21,3 +21,14 @@ git commit -m "first commit"
 git remote set-url origin https://github.com/kevindanikowski/my_repo.git
 git push -u origin master
 input your username and password
+
+Updating:
+git add .
+git commit -m "message"
+git push -u origin master
+
+removing idea folder:
+git rm -r one-of-the-directories
+
+creating new branch: (remote-changes)
+git checkout -b branch name
