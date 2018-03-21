@@ -5,7 +5,7 @@ Rewriters (spinners) are expensive, work "alright" and are complicated. Rewriter
 
 # How It Works
 
-English Text (start lang) => Processing Languages (=> spanish => polish => etc.) => Rewritten English Text (end lang)
+English Text (start lang) => Processing Languages (start lang => spanish => polish => etc.) => Rewritten English Text (end lang)
 
 Addons:
 - Autocompletion
@@ -24,6 +24,9 @@ Testing (mocha, enzyme, chai)
 - API
 - Machine learning thesaurus
 - Machine learning suggestions
+
+# Code Quality
+This app was created in a short time frame, features are being added, tests need to be fully developed, they have been tested on another version of the app but the code has since changed. The code will be better revised soon to be cleaner.
 
 # Author Info
 Author: Kevin Danikowski
