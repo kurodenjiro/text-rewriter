@@ -136,7 +136,7 @@ class Home extends Component {
                 </div>
                 {/*RATINGS*/}
                 <div className='mt5 col-12'>
-                    <h1>Ratings (Almost Setup, Not Deployed)</h1>
+                    <h1>Ratings (Almost Setup, Not Deployed-)</h1>
                 </div>
                 <div className='row'>
                     <div className='container'>
