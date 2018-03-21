@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e7b680d1-5a94-4116-8db9-cf2e9fcbb11c" name="Default" comment="changing ports for launch, some adjustments">
+    <list default="true" id="e7b680d1-5a94-4116-8db9-cf2e9fcbb11c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/src/components/Home.js" afterPath="$PROJECT_DIR$/app/src/components/Home.js" />
     </list>
@@ -51,7 +51,7 @@
             <entry file="file://$PROJECT_DIR$/app/src/components/Home.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="388">
-                  <caret line="138" column="59" lean-forward="false" selection-start-line="138" selection-start-column="59" selection-end-line="138" selection-end-column="59" />
+                  <caret line="138" column="60" lean-forward="false" selection-start-line="138" selection-start-column="60" selection-end-line="138" selection-end-column="60" />
                   <folding>
                     <element signature="e#0#41#0" expanded="true" />
                   </folding>
@@ -327,11 +327,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521591656952</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="changing ports for launch, some adjustments">
+      <created>1521591757778</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1521591757778</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="264542000" />
+    <option name="totallyTimeSpent" value="264795000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -364,9 +371,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changing ports for launch, some adjustments" />
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="changing ports for launch, some adjustments" />
+    <option name="LAST_COMMIT_MESSAGE" value="changing ports for launch, some adjustments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -749,7 +756,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/components/Home.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="388">
-          <caret line="138" column="59" lean-forward="false" selection-start-line="138" selection-start-column="59" selection-end-line="138" selection-end-column="59" />
+          <caret line="138" column="60" lean-forward="false" selection-start-line="138" selection-start-column="60" selection-end-line="138" selection-end-column="60" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
