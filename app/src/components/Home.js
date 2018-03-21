@@ -75,7 +75,7 @@ class Home extends Component {
                 </div>
                 {/*REWRITER*/}
                 <div className='row mt3'>
-                    <div className='container '>
+                    <div className='container'>
                         <h2>Rewriter</h2>
                         <div className="row rewriter-container">
                             <div className="col-sm-4 flex flex-column">
