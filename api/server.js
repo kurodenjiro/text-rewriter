@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import graphqlHTTP from 'express-graphql';
+import ENV_FILE from './envFileConfigs'
 
 import schema from './Schema';
 
@@ -21,7 +22,8 @@ app.use(
         graphiql: true,
     })),
 );
-app.listen(3334);
-console.log('Running a GraphQL API server at http://localhost:3334/graphql');
+const port = ENV_FILE.apiPort || 3334
+app.listen(port);
+console.log('Running a GraphQL API server at http://localhost:'+port+'/graphql');
 
 // Exmaple from https://github.com/marmelab/GraphQL-example/tree/master/server/src

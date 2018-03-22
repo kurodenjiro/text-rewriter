@@ -1,14 +1,6 @@
 import Sequelize from 'sequelize'
+import ENV_FILE from '../envFileConfigs'
 
-/* Use Mysql directly
-const connection = mysql.createConnection({
-    host: 'wtm-lnx-2.m2', //use wtm-lnx-2.m2
-    user: 'u_kdanikowski', // use u_kdanikowski
-    password: 'Ud0b0K0MGd4k7TM6', //use Ud0b0K0MGd4k7TM6
-    database: 'x_kevinsdb_test', //use x_kevinsdb_test
-    port: 3306 //use 3306
-})
-*/
 /* DB NOTES AND SCHEMAS
 votes of one language into anther - save success of translation 1-5
 option for multiple languages, option to see what it translated it into
@@ -17,8 +9,8 @@ languages that spin it backwards
 additional spinning = add thesaurus
 
  */
-const Conn = new Sequelize('x_kevinsdb_test', 'u_kdanikowski', 'Ud0b0K0MGd4k7TM6', {
-    host: 'wtm-lnx-2.m2',
+const Conn = new Sequelize(ENV_FILE.dbDatabase, ENV_FILE.dbUser, ENV_FILE.dbPassword, {
+    host: ENV_FILE.dbHost,
     dialect: 'mysql',
     port: 3306,
     pool: {

@@ -13,8 +13,10 @@ if (!NODE_ENV) {
     'The NODE_ENV environment variable is required but was not specified.'
   );
 }
+const ENV_FILE = require('../config/envFileConfigs')
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
+//https://codingsans.com/blog/node-config-best-practices
 var dotenvFiles = [
   `${paths.dotenv}.${NODE_ENV}.local`,
   `${paths.dotenv}.${NODE_ENV}`,
@@ -74,8 +76,11 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
+        API_URL: ENV_FILE.apiUrl || 'http://localhost:'+ENV_FILE.apiPort || 'http://localhost:3334'
       }
     );
+  //try https://github.com/react-boilerplate/react-boilerplate/issues/1250
+
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {
     'process.env': Object.keys(raw).reduce((env, key) => {
