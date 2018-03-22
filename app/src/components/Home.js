@@ -62,6 +62,7 @@ class Home extends Component {
                     <div className='col-12 d-flex justify-content-center align-items-center'>
                         <div>
                             <h1>Full Text Rewriter</h1>
+                            <h4>How It Works</h4>
                             <div className=' flex justify-between items-center'>
                                 <div className='btn btn-primary'>English</div>
                                 <FontAwesomeIcon className='ml2 mr2' icon={faAngleDoubleRight} size='lg'/>
@@ -73,8 +74,8 @@ class Home extends Component {
                     </div>
                 </div>
                 {/*REWRITER*/}
-                <div className='row'>
-                    <div className='container '>
+                <div className='row mt3'>
+                    <div className='container'>
                         <h2>Rewriter</h2>
                         <div className="row rewriter-container">
                             <div className="col-sm-4 flex flex-column">
@@ -135,7 +136,7 @@ class Home extends Component {
                 </div>
                 {/*RATINGS*/}
                 <div className='mt5 col-12'>
-                    <h1>Ratings (Not Fully Setup</h1>
+                    <h1>Ratings (Almost Setup, Not Deployed)</h1>
                 </div>
                 <div className='row'>
                     <div className='container'>
