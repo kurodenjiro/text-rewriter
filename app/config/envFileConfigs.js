@@ -2,7 +2,6 @@ require('../config/env'); //gets from paths.js called from env.js file
 
 const ENV_FILE = {
     appPort: process.env.APP_PORT,
-    apiPort: process.env.API_PORT,
     apiUrl: process.env.API_URL
 }
 

@@ -44,7 +44,6 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = parseInt(ENV_FILE.appPort, 10) || 3333;
-console.log('ENV_FILE appPort = '+ENV_FILE.appPort)
 const HOST = process.env.HOST || '0.0.0.0';
 
 // We attempt to use the default port but if it is busy, we offer the user to
