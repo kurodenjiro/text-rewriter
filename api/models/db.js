@@ -30,7 +30,7 @@ const Rating = Conn.define('rating',{
 })
 const LanguageCombination = Conn.define('languageCombination',{
     processingLanguages: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.ARRAY(Sequelize.STRING) //DOESN'T WORK
     },
     language: {
         type: Sequelize.STRING
@@ -43,6 +43,7 @@ const LanguageCombination = Conn.define('languageCombination',{
 /*   Relations   */
 LanguageCombination.hasMany(Rating)
 Rating.belongsTo(LanguageCombination)
+//todo add some language combinations, after set up the type correctly. will get a get: and push:
 //doing joins https://lorenstewart.me/2016/09/12/sequelize-table-associations-joins/
 
 // Conn.sync({force: true}).then(()=>{ //forces tables to be overwritten

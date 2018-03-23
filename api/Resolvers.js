@@ -60,6 +60,7 @@ export default {
             })
         },
         rateRewrite: async (_, data) => {
+            //TODO ADD THE STUFF TO DB, SUCH AS THROUGH PARSE.JSON
             //data: { language: 'en', processingLanguages: ['es', 'pl'], rating: 3, translator: 'google', wordCount: 263}
             // https://stackoverflow.com/questions/41860792/how-can-i-have-a-datatype-of-array-in-mysql-sequelize-instance
             //https://stackoverflow.com/questions/25565212/how-to-define-array-of-objects-in-sequelize-js
