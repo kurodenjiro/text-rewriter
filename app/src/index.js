@@ -7,16 +7,11 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo';
-require('dotenv').config()
 
-const ENV_FILE = {
-    appPort: process.env.APP_PORT,
-    apiPort: process.env.API_PORT
-}
-console.log(ENV_FILE)
+const API_URL = process.env.API_URL
 
 const client = new ApolloClient({
-    link: new HttpLink({ uri: 'http://localhost:3334/graphql' }),
+    link: new HttpLink({ uri: API_URL }),
     cache: new InMemoryCache()
 })
 ReactDOM.render(
