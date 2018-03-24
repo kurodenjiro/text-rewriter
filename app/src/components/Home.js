@@ -54,7 +54,54 @@ class Home extends Component {
                     </div>
                 )
             })
-        }//
+        }
+        const LanguageCombinationsMap = () => {
+            if (this.props.languageCombinationsQuery &&
+                !this.props.languageCombinationsQuery.loading &&
+                !this.props.languageCombinationsQuery.error){
+                return this.props.languageCombinationsQuery.LanguageCombinations.map((languageCombination,index)=>{
+                    //mapping languageCombinations
+                    const languageIndex = languages.map(language=>language.symbol).indexOf(languageCombination.language)
+                    const languageStartEnd = languages[languageIndex].language
+                    const ProcessingLanguageMap = () => {
+                        //mapping processingLanguages
+                        return languageCombination.processingLanguages.map((processingLanguage, index) => {
+                            const processingLanguageIndex = languages.map(language=>language.symbol).indexOf(processingLanguage)
+                            const processingLanguageL = languages[processingLanguageIndex].language
+                            return(
+                                <div className='flex justify-between items-center' key={index}>
+                                    {(index===0)?null:<FontAwesomeIcon className='ml2 mr2' icon={faAngleDoubleRight} size='lg'/>}
+                                    <div className='btn btn-info'>{processingLanguageL}</div>
+                                </div>
+                            )
+                        })
+                    }
+                    return(
+                        <tr key={index}>
+                            <th scope='row'>{index+1}</th>
+                            <td>
+                                <div className='btn btn-primary'>{languageStartEnd}</div>
+                            </td>
+                            <td className='flex justify-center items-center'>
+                                <ProcessingLanguageMap />
+                            </td>
+                            <td>{languageCombination.avgRating}</td>
+                            <td>{languageCombination.ratingCount}</td>
+                        </tr>
+                    )
+                })
+            } else {
+                return(
+                    <tr>
+                        <th scope='row'>1</th>
+                        <td>English</td>
+                        <td>Processing Language</td>
+                        <td>Score</td>
+                        <td>Ratings</td>
+                    </tr>
+                )
+            }
+        }
         return (
             <div className=''>
                 {/*HEADER*/}
@@ -136,7 +183,7 @@ class Home extends Component {
                 </div>
                 {/*RATINGS*/}
                 <div className='mt5 col-12'>
-                    <h1>Ratings (Almost Setup, Not Deployed)</h1>
+                    <h1>Ratings</h1>
                 </div>
                 <div className='row mb5'>
                     <div className='container'>
@@ -152,13 +199,7 @@ class Home extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope='row'>1</th>
-                                    <td>English</td>
-                                    <td>Processing Language</td>
-                                    <td>Score</td>
-                                    <td>Ratings</td>
-                                </tr>
+                                <LanguageCombinationsMap />
                             </tbody>
                         </table>
                     </div>
@@ -173,6 +214,9 @@ class Home extends Component {
     _removeProcessingLanguage = (index) => {
         this.state.processingLanguages.splice(index, 1)
         this.setState({processingLanguages: this.state.processingLanguages})
+    }
+    _rateRewrite = async () => {
+        //todo finish rateRewrite mutation
     }
     _rewrite = async ()=>{
         const text = this.state.text
@@ -206,7 +250,17 @@ mutation RewriteMutation($text: String!, $language: String!, $processingLanguage
     rewrite(text: $text, language: $language, processingLanguages: $processingLanguages){
         rewrite
 }}`
-
+const LANGUAGE_COMBINATIONS_QUERY = gql`
+query { LanguageCombinations { 
+    id processingLanguages language translator ratingCount avgRating ratings { id rating wordCount }
+}}`
+const CREATE_RATING_MUTATION = gql`
+mutation rateRewrite($rating: Int!, $language: String!, $processingLanguages: [String!]!, $translator: String, $wordCount: Int){
+    rateRewrite(rating: $rating, language: $language, processingLanguages: $processingLanguages, translator: $translator, wordCount: $wordCount){
+        id languagesCombinationId rating wordCount
+}}`
 export default compose(
-    graphql(REWRITE_MUTATION, {name: 'rewriteMutation'})
+    graphql(REWRITE_MUTATION, {name: 'rewriteMutation'}),
+    graphql(LANGUAGE_COMBINATIONS_QUERY, {name: 'languageCombinationsQuery'}),
+    graphql(CREATE_RATING_MUTATION, {name: 'rateRewriteMutation'})
 )(Home)

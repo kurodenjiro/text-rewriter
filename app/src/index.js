@@ -10,7 +10,7 @@ import { ApolloProvider } from 'react-apollo';
 import './index.scss'
 
 const API_URL = process.env.API_URL
-
+console.log(API_URL)
 const client = new ApolloClient({
     link: new HttpLink({ uri: API_URL }),
     cache: new InMemoryCache()

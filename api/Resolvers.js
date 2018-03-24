@@ -9,13 +9,33 @@ export default {
     Query: {
         LanguageCombinations: () => {
             return db.models.languageCombination.findAll({
-                include: [{ model: db.models.rating }]
+                include: [{
+                    model: db.models.rating,
+                    as: 'ratings', //put here to specify, adds plural itself though
+                    //todo have avgRating, see SO question
+                    // attributes:  {include: ['rating',[db.fn('COUNT', 'ratings.rating'), 'RATING_COUNT']]},
+                    // group: ['ratings.rating'],
+                }],
             }).then(languageCombinations => {
+                console.log(languageCombinations)
                 return languageCombinations.map(languageCombination=>{
                     return Object.assign({},
                         {
                             id: languageCombination.id,
                             processingLanguages: languageCombination.processingLanguages,
+                            language: languageCombination.language,
+                            translator: languageCombination.translator,
+                            ratingCount: languageCombination.ratings.length,
+                            avgRating: 3,
+                            ratings: languageCombination.ratings.map(rating=>{
+                                return Object.assign({},
+                                    {
+                                        id: rating.id,
+                                        languageCombinationId: languageCombination.id,
+                                        rating: rating.rating,
+                                        wordCount: rating.wordCount
+                                    })
+                            })
                         })}
                     )
                 })
@@ -93,5 +113,3 @@ export default {
 // check the author: and post : which returns author or post, this is to get posts or authors from the linked ID
 
 // huge ass graphql-tools testing file https://github.com/apollographql/graphql-tools/blob/master/src/test/testMocking.ts
-
-//mbiPpcYjJ7_w

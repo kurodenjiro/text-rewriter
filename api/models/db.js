@@ -30,7 +30,14 @@ const Rating = Conn.define('rating',{
 })
 const LanguageCombination = Conn.define('languageCombination',{
     processingLanguages: {
-        type: Sequelize.ARRAY(Sequelize.STRING) //DOESN'T WORK
+        type: Sequelize.STRING, //DOESN'T WORK
+        get: function(){
+            return JSON.parse(this.getDataValue('processingLanguages'))
+        },
+        set: function(val){
+          const stringifiedArray = JSON.stringify(val) //removes spaces and uses only " not '
+          this.setDataValue('processingLanguages', stringifiedArray)
+        },
     },
     language: {
         type: Sequelize.STRING
@@ -43,21 +50,46 @@ const LanguageCombination = Conn.define('languageCombination',{
 /*   Relations   */
 LanguageCombination.hasMany(Rating)
 Rating.belongsTo(LanguageCombination)
-//todo add some language combinations, after set up the type correctly. will get a get: and push:
-//doing joins https://lorenstewart.me/2016/09/12/sequelize-table-associations-joins/
 
-// Conn.sync({force: true}).then(()=>{ //forces tables to be overwritten
-//     userNameList.map(name => {
-//         console.log('going to create user ', name)
-//         return User.create({
-//             name: name
-//         }).then(user => {
-//             return user.createTodo({ //createTodo generated from 'todo' name, autocapitalized T.
-//                 task: `This task is ${user.name}\'s`
-//             })
-//         })
-//     })
-// })
+/* add sample data */
+// only add data once, this destoys the data tables and makes new ones with the data
+/*
+const sampleLanguageCombinationData = [
+    {
+        processingLanguages: ['es','pl','nl'],
+        language: 'en',
+        translator: 'google',
+        ratings: [{rating: 3, wordCount: 36}, {rating: 2, wordCount: 253}]
+    },{
+        processingLanguages: ['es','pl'],
+        language: 'en',
+        translator: 'google',
+        ratings: [{rating: 5, wordCount: 15}, {rating: 4, wordCount: 117}]
+    },{
+        processingLanguages: ['es'],
+        language: 'en',
+        translator: 'google',
+        ratings:[{rating: 1, wordCount: 15}]
+    }
+]
+Conn.sync({force: true}).then(()=>{ //forces tables to be overwritten
+  sampleLanguageCombinationData.map(languageCombination => {
+        console.log('going to create languageCombination ', languageCombination)
+        return LanguageCombination.create({
+          processingLanguages: languageCombination.processingLanguages,
+          language: languageCombination.language,
+          translator: languageCombination.translator
+        }).then(languageCombinationReturn => {
+            return languageCombination.ratings.map(rating=>{
+                languageCombinationReturn.createRating({
+                    rating: rating.rating,
+                    wordCount: rating.wordCount
+                })
+            })
+        })
+    })
+})
+*/
 
 
 export default Conn

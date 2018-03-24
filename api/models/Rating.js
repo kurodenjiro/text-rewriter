@@ -1,5 +1,6 @@
 const Rating = `
 type Rating {
+    id: String
     languageCombinationId: String
     rating: Int
     wordCount: Int

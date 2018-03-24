@@ -6,7 +6,9 @@ type LanguageCombination {
     processingLanguages: [String]
     language: String
     translator: String
-    ratings: Rating
+    ratings: [Rating]
+    ratingCount: Int
+    avgRating: Int
 }
 extend type Query {
     LanguageCombinations: [LanguageCombination]  
