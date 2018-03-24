@@ -9,33 +9,36 @@ export default {
     Query: {
         LanguageCombinations: () => {
             return db.models.languageCombination.findAll({
-                include: [{
-                    model: db.models.rating,
-                    as: 'ratings', //put here to specify, adds plural itself though
-                    //todo have avgRating, see SO question
-                    // attributes:  {include: ['rating',[db.fn('COUNT', 'ratings.rating'), 'RATING_COUNT']]},
-                    // group: ['ratings.rating'],
-                }],
+                group: ['languageCombination.id'],
+                //add attributes of languageCombination
+                attributes: ['id', 'language', 'processingLanguages', 'translator',
+                    [db.fn('count', db.col('ratings.rating')), 'ratingCount'],
+                    [db.fn('avg', db.col('ratings.rating')), 'avgRating']],
+                include: [{attributes:[], as: 'ratings', model: db.models.rating}] //TODO ratings returning null
+                // WORKING HERE: https://github.com/sequelize/sequelize/issues/3596
             }).then(languageCombinations => {
-                console.log(languageCombinations)
+                //todo filterby avg rating count and count number
                 return languageCombinations.map(languageCombination=>{
+                    const avgRating = (Math.round(languageCombination.dataValues.avgRating * 10)/10).toString()
+                    console.log(typeof avgRating, avgRating)
                     return Object.assign({},
                         {
                             id: languageCombination.id,
                             processingLanguages: languageCombination.processingLanguages,
                             language: languageCombination.language,
                             translator: languageCombination.translator,
-                            ratingCount: languageCombination.ratings.length,
-                            avgRating: 3,
-                            ratings: languageCombination.ratings.map(rating=>{
-                                return Object.assign({},
-                                    {
-                                        id: rating.id,
-                                        languageCombinationId: languageCombination.id,
-                                        rating: rating.rating,
-                                        wordCount: rating.wordCount
-                                    })
-                            })
+                            avgRating: avgRating,
+                            ratingCount: languageCombination.dataValues.ratingCount,
+                            // avgRating: 3,
+                            //  ratings: []//languageCombination.ratings.map(rating=>{
+                            //     return Object.assign({},
+                            //         {
+                            //             id: rating.id,
+                            //             languageCombinationId: languageCombination.id,
+                            //             rating: rating.rating,
+                            //             wordCount: rating.wordCount
+                            //         })
+                            // })
                         })}
                     )
                 })

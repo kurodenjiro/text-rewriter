@@ -8,7 +8,7 @@ type LanguageCombination {
     translator: String
     ratings: [Rating]
     ratingCount: Int
-    avgRating: Int
+    avgRating: String
 }
 extend type Query {
     LanguageCombinations: [LanguageCombination]  

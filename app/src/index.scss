@@ -1,3 +1,5 @@
+@import './scss/languages.scss';
+
 /*************************
          ELEMENTS
 *************************/
@@ -17,24 +19,24 @@ html {
   height: 100%;
 }
 h1 {
-  font-weight: 700 !important;
-  color: #a49bf3 !important;
+  font-weight: 700 ;
+  color: #a49bf3 ;
   text-shadow: 2px 1px 1px rgba(0,0,0,0.1);
 }
 
 h2 {
-  margin: 0 !important;
-  margin-bottom: 10px !important;
-  font-weight: 600 !important;
-  color: #ada4ff !important;
+  margin: 0 ;
+  margin-bottom: 10px ;
+  font-weight: 600 ;
+  color: #ada4ff ;
 }
 h3 {
-  margin: 0 !important;
-  margin-bottom: 5px !important;
+  margin: 0 ;
+  margin-bottom: 5px ;
 }
 h4 {
-  margin: 0 !important;
-  margin-bottom: 5px !important;
+  margin: 0 ;
+  margin-bottom: 5px ;
 }
 .container {
   border: 2px solid #e8eaea;

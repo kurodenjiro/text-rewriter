@@ -252,7 +252,7 @@ mutation RewriteMutation($text: String!, $language: String!, $processingLanguage
 }}`
 const LANGUAGE_COMBINATIONS_QUERY = gql`
 query { LanguageCombinations { 
-    id processingLanguages language translator ratingCount avgRating ratings { id rating wordCount }
+    id processingLanguages language translator ratingCount avgRating
 }}`
 const CREATE_RATING_MUTATION = gql`
 mutation rateRewrite($rating: Int!, $language: String!, $processingLanguages: [String!]!, $translator: String, $wordCount: Int){
