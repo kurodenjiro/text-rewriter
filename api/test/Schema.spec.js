@@ -1,6 +1,8 @@
 import { graphql } from 'graphql';
 import schema from '../Schema';
 
+//Need to be written from test file to match current schema
+//All below written by Kevin Danikowski
 describe('Schema', ()=> {
     describe('ToDos', () => {
         it('should query all with args', () => {
