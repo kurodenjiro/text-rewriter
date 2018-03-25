@@ -19,7 +19,7 @@ app.use(
     '/graphql',
     graphqlHTTP(request => ({
         schema: schema,
-        graphiql: true,
+        graphiql: ENV_FILE.graphiqlOn || true,
     })),
 );
 const port = ENV_FILE.apiPort || 3334

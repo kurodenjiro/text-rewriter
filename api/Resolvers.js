@@ -20,7 +20,6 @@ export default {
                 //todo filterby avg rating count and count number
                 return languageCombinations.map(languageCombination=>{
                     const avgRating = (Math.round(languageCombination.dataValues.avgRating * 10)/10).toString()
-                    console.log(typeof avgRating, avgRating)
                     return Object.assign({},
                         {
                             id: languageCombination.id,
