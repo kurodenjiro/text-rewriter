@@ -16,7 +16,7 @@ class Footer extends Component {
                                     <p>Familiarize yourself with Graphql</p>
                                 </li>
                                 <li>
-                                    <p>Make a post query to <a href='http://rewriter.smodin.me/graphql'>rewriter.smodin.me/graphql</a> which looks like so:</p>
+                                    <p>Make a post query to <a href='https://rewriter.smodin.me/graphql'>rewriter.smodin.me/graphql</a> which looks like so:</p>
                                     <code>
                                         {mutationString}
                                     </code>
