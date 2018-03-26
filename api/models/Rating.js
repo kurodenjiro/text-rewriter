@@ -9,9 +9,9 @@ extend type Query {
     Ratings: [Rating]  
 }
 extend type Mutation {
-    rateRewrite (rating: Int!, 
-        language: String!, 
-        processingLanguages: [String!]!, 
+    rateRewrite (rating: Int, 
+        language: String, 
+        processingLanguages: [String], 
         translator: String, 
         wordCount: Int): Rating!
 }`

@@ -82,26 +82,28 @@ export default {
             })
         },
         rateRewrite: async (_, data) => {
-            //TODO ADD THE STUFF TO DB, SUCH AS THROUGH PARSE.JSON
-            //data: { language: 'en', processingLanguages: ['es', 'pl'], rating: 3, translator: 'google', wordCount: 263}
-            // https://stackoverflow.com/questions/41860792/how-can-i-have-a-datatype-of-array-in-mysql-sequelize-instance
-            //https://stackoverflow.com/questions/25565212/how-to-define-array-of-objects-in-sequelize-js
-            console.log(data)
-            db.models.languageCombination.findOrCreate({
-                where: {
-                    processingLanguages: data.processingLanguages,
-                    language: data.language,
-                    translator: data.translator
-                }
-            }).then(async (languageCombinations, createdNewLanguageCombination) => {
-                console.log(languageCombinations, createdNewLanguageCombination)
-            })
-            return Object.assign({},
-                {
-                    languageCombinationId: '1234',
-                    rating: 3,
-                    wordCount: 263
+            return new Promise((resolve, reject) => {
+                db.models.languageCombination.findOrCreate({
+                    where: {
+                        processingLanguages: JSON.stringify(data.processingLanguages),
+                        language: data.language,
+                        translator: data.translator
+                    }
+                }).spread((languageCombination, createdNewLanguageCombination) => {
+                    languageCombination.createRating({
+                        rating: data.rating,
+                        wordCount: data.wordCount
+                    }).then(rating => {
+                        resolve(Object.assign({},
+                            {
+                                id: rating.id,
+                                languageCombinationId: languageCombination.id,
+                                rating: rating.rating,
+                                wordCount: rating.wordCount
+                            }))
+                    })
                 })
+            })
         }
     }
 };

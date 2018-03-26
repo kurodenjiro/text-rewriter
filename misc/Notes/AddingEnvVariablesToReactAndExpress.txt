@@ -7,3 +7,6 @@ lastly to get in index.js install npm i -D env-cmd and in the commandline before
 
 # Express
 add envFileConfigs.js and inside add require('dotenv').config() (add the path if necessary) and then you can const ENV_FILE = {varaibles in .env : process.env.VARIABLE } . get more info at dotenv npm package and dont forget to npm i it
+
+When runniing on server:
+need to use 'pm2 start npm --name rewriter-app -- start' to get .env to work
