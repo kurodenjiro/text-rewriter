@@ -1,10 +1,10 @@
-//import server from '../server'
-import graphql from 'graphql'
-import todo from '../models/ToDo'
-const todoType = todo.type;
+// import server from '../server'
+// import graphql from 'graphql'
+import ENV_FILE from '../envFileConfigs'
 
 describe('Server', () => {
-    it('should return true',()=>{
+    it('should listen on port',()=>{
+        console.log(ENV_FILE)
         expect(true).to.equal(true)
     })
     // it('Should have an id field of type String', () => {

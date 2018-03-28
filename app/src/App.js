@@ -3,6 +3,7 @@ import {Switch, Route} from 'react-router-dom'
 import API from './components/API'
 import Home from './components/Home'
 import Footer from './components/Footer'
+import './scss/index.scss'
 
 class App extends Component {
     constructor(props) {
