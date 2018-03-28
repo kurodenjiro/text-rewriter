@@ -19,11 +19,12 @@ app.use(
     '/graphql',
     graphqlHTTP(request => ({
         schema: schema,
-        graphiql: ENV_FILE.graphiqlOn || true,
+        graphiql: ENV_FILE.graphiqlOn,
     })),
 );
-const port = ENV_FILE.apiPort || 3334
+const port = ENV_FILE.apiPort
 app.listen(port);
 console.log('Running a GraphQL API server at http://localhost:'+port+'/graphql');
 
+export default app //for testing
 // Exmaple from https://github.com/marmelab/GraphQL-example/tree/master/server/src
