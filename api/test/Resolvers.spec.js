@@ -1,11 +1,13 @@
 import { graphql } from 'graphql';
 import schema from '../Schema';
 
+//Need to be written from test file to match current schema
+//All below written by Kevin Danikowski
 describe('Resolver File', ()=> {
     describe('rewrite', () => {
         it('should return a rewrite',()=> {
             const newRewrite = {
-                text: 'rewrite this text in english with some additional changes',
+                text: 'rewrite this text in english',
                 language: 'en',
                 processingLanguages: ['es', 'pl'],
                 translator: 'google',
@@ -13,18 +15,17 @@ describe('Resolver File', ()=> {
                 autocorrect: false
             }
             const createRewrite = `mutation {rewrite(` +
-                `text: \"${newRewrite.text}\",` +
+                `text: ${newRewrite.text},` +
                 `language: \"${newRewrite.language}\",` +
-                `processingLanguages: ${JSON.stringify(newRewrite.processingLanguages)},` +
+                `processingLanguages: ${newRewrite.processingLanguages},` +
                 `translator: \"${newRewrite.translator}\",`+
-                `autocorrect: ${newRewrite.autocorrect},`+
+                `autocorrect: \"${newRewrite.autocorrect}\",`+
                 `thesaurus: ${newRewrite.thesaurus}`+
                 `){rewrite}}`
-            console.log('mutation is', createRewrite)
             return graphql(schema, createRewrite).then(results => {
                 const newRewriteResponse = results.data.rewrite;
                 expect(newRewriteResponse).to.exist;
-                expect(newRewriteResponse).to.have.property('rewrite').and.be.a('string')
+                expect(newRewriteResponse.rewrite).to.have.property('rewrite').and.be.a('string')
             })
         })
     })
@@ -43,7 +44,7 @@ describe('Resolver File', ()=> {
                 expect(firstLanguageCombination).to.have.property('processingLanguages').and.be.an('array').and.not.be.empty;
             })
         })
-        /* QUERY FOR RATINGS {VARIABLES} ON LANGUAGECOMBINATION, currently doesn't work ***
+        /* Query for Ratings on Language Combination, currently doesn't work ***
         it('should have Ratings with args', () => {
         const languageCombinationsQuery = '{LanguageCombinations { id ratings {id}}'
             return graphql(schema, languageCombinationsQuery).then(results => {
