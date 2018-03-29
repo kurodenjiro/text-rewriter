@@ -109,8 +109,10 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.26.0",
     "chai": "^4.1.2",
     "chai-jquery": "^2.0.0",
+    "css-modules-require-hook": "^4.2.3",
     "env-cmd": "^7.0.0",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",

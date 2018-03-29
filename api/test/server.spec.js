@@ -4,6 +4,7 @@ import server from '../server'
 
 describe('Server', () => {
     it('should have GraphIQL if turned on', ()=>{
+        //SO question https://stackoverflow.com/questions/49556900/graph-i-ql-chai-test-requestapp-response-400-when-test-runs
         if(ENV_FILE.graphiqlOn) { //fails because gets 400 when should get 201
             return request(server)
                 .get('/graphql')

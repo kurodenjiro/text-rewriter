@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {graphql, compose} from 'react-apollo'
-import gql from 'graphql-tag'
+import {CREATE_RATING_MUTATION, LANGUAGE_COMBINATIONS_QUERY, REWRITE_MUTATION} from "../graphql";
 import { languages } from "../constants";
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faTimes, faAngleDoubleRight, faCheck, faAngleDown, faStar } from '@fortawesome/fontawesome-free-solid'
@@ -264,30 +264,6 @@ class Home extends Component {
     }
 }
 
-const REWRITE_MUTATION = gql`
-mutation RewriteMutation($text: String!, $language: String!, $processingLanguages: [String]) {
-    rewrite(text: $text, language: $language, processingLanguages: $processingLanguages){
-        rewrite
-}}`
-const LANGUAGE_COMBINATIONS_QUERY = gql`
-query { LanguageCombinations { 
-    id processingLanguages language translator ratingCount avgRating
-}}`
-const CREATE_RATING_MUTATION = gql`
-mutation rateRewrite(
-    $rating: Int, 
-    $language: String!, 
-    $processingLanguages: [String], 
-    $translator: String, 
-    $wordCount: Int){
-    rateRewrite(
-        rating: $rating, 
-        language: $language, 
-        processingLanguages: $processingLanguages,
-        translator: $translator, 
-        wordCount: $wordCount){
-            id languageCombinationId rating wordCount
-}}`
 export default compose(
     graphql(REWRITE_MUTATION, {name: 'rewriteMutation'}),
     graphql(LANGUAGE_COMBINATIONS_QUERY, {name: 'languageCombinationsQuery'}),

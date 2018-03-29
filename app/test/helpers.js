@@ -5,6 +5,8 @@ import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import jsdom from 'jsdom'
 import chai from "chai";
+import 'babel-polyfill'
+import './mocha-setup'
 const document = jsdom.jsdom('<!doctype html><html><body></body></html>')
 const global = require("global");
 const window = document.defaultView
