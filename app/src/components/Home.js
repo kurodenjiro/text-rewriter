@@ -122,7 +122,7 @@ class Home extends Component {
                     </div>
                 </div>
                 {/*REWRITER*/}
-                <div className='row mt3'>
+                <div className='row mt3 ft-unspun-text'>
                     <div className='container'>
                         <h2>Rewriter</h2>
                         <div className="row rewriter-container">
