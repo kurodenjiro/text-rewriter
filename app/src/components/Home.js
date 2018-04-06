@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {graphql, compose} from 'react-apollo'
-import gql from 'graphql-tag'
 import { languages } from "../constants";
+import { REWRITE_MUTATION, CREATE_RATING_MUTATION} from "../graphql/mutations"
+import { LANGUAGE_COMBINATIONS_QUERY} from "../graphql/queries"
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faTimes, faAngleDoubleRight, faCheck, faAngleDown, faStar } from '@fortawesome/fontawesome-free-solid'
 import { Consumer } from "../Context"
@@ -11,6 +12,9 @@ const defaultAddedLanguage = 'es'
 class Home extends Component {
     render() {
         const LanguageSelectorMap = ({processingLanguages, setState }) => {
+        console.log(this.props)
+        const {LanguageCombinations} = this.props
+        const LanguageSelectorMap = () => {
             const LanguageOptionsMap = () => languages.map(language=>{
                 return <option key={language.symbol} value={language.symbol}>{language.language}</option>
             })
@@ -39,10 +43,8 @@ class Home extends Component {
             })
         }
         const LanguageCombinationsMap = () => {
-            if (this.props.languageCombinationsQuery &&
-                !this.props.languageCombinationsQuery.loading &&
-                !this.props.languageCombinationsQuery.error){
-                return this.props.languageCombinationsQuery.LanguageCombinations.map((languageCombination,index)=>{
+            if (LanguageCombinations){
+                return LanguageCombinations.map((languageCombination,index)=>{
                     //mapping languageCombinations
                     const languageIndex = languages.map(language=>language.symbol).indexOf(languageCombination.language)
                     const languageStartEnd = languages[languageIndex].language
@@ -228,7 +230,7 @@ class Home extends Component {
         await this.props.rateRewriteMutation({
             variables: variables,
             update: (store, {data: {rateRewrite}})=> {
-                this.props.languageCombinationsQuery.refetch()
+                //this.props.languageCombinationsQuery.refetch()
             }
         })
     }
@@ -253,32 +255,14 @@ class Home extends Component {
     }
 }
 
-const REWRITE_MUTATION = gql`
-mutation RewriteMutation($text: String!, $language: String!, $processingLanguages: [String]) {
-    rewrite(text: $text, language: $language, processingLanguages: $processingLanguages){
-        rewrite
-}}`
-const LANGUAGE_COMBINATIONS_QUERY = gql`
-query { LanguageCombinations { 
-    id processingLanguages language translator ratingCount avgRating
-}}`
-const CREATE_RATING_MUTATION = gql`
-mutation rateRewrite(
-    $rating: Int, 
-    $language: String!, 
-    $processingLanguages: [String], 
-    $translator: String, 
-    $wordCount: Int){
-    rateRewrite(
-        rating: $rating, 
-        language: $language, 
-        processingLanguages: $processingLanguages,
-        translator: $translator, 
-        wordCount: $wordCount){
-            id languageCombinationId rating wordCount
-}}`
 export default compose(
     graphql(REWRITE_MUTATION, {name: 'rewriteMutation'}),
-    graphql(LANGUAGE_COMBINATIONS_QUERY, {name: 'languageCombinationsQuery'}),
+    graphql(LANGUAGE_COMBINATIONS_QUERY, {
+        props: ({data}) => {
+            console.log(data)
+            const { LanguageCombinations } = data
+            return {LanguageCombinations}
+        }
+    }),
     graphql(CREATE_RATING_MUTATION, {name: 'rateRewriteMutation'})
 )(Home)
