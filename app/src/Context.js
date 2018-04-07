@@ -4,7 +4,7 @@ const defaultState = {
     language: 'en',
     processingLanguages: ['es'],
     lastCalledLanguage: '',
-    lastProcessedLanguages: '',
+    lastProcessedLanguages: '',//unused except to set it's state
     loading: false,
     rated: false,
     text: '',
@@ -22,15 +22,8 @@ export class Provider extends Component {
         super(props)
         this.state = defaultState
         this.functions = {
-            setState: async (item, value)=>{//if you put an item that doesn't exist, will break
-                const objProperties = item.split('.')
-                let object = ''
-                await objProperties.map(objProp=> {
-                    object += '{\"' + objProp + '\":'
-                })
-                object +=  '\"'+value.toString()+'\"'+'}'.repeat(objProperties.length)
-                const stateUpdate = JSON.parse(object)
-                this.setState(stateUpdate)
+            setState: async (updatedState)=>{
+                await this.setState(updatedState)
             }
         }
     }

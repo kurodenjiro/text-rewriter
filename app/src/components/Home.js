@@ -4,42 +4,23 @@ import gql from 'graphql-tag'
 import { languages } from "../constants";
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faTimes, faAngleDoubleRight, faCheck, faAngleDown, faStar } from '@fortawesome/fontawesome-free-solid'
-import { Consumer} from "../Context"
+import { Consumer } from "../Context"
 
 const defaultAddedLanguage = 'es'
 
 class Home extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            language: 'en',
-            processingLanguages: ['es'],
-            lastCalledLanguage: '',
-            lastProcessedLanguages: '',
-            loading: false,
-            rated: false,
-            text: '',
-            rewrite: '',
-            autocorrect: false,
-            thesaurus: false,
-            translator: 'google'
-        }
-    }
-
     render() {
-        const LanguageSelectorMap = () => {
+        const LanguageSelectorMap = ({processingLanguages, setState }) => {
             const LanguageOptionsMap = () => languages.map(language=>{
                 return <option key={language.symbol} value={language.symbol}>{language.language}</option>
             })
 
             //map options of languages here up to 5
             const updateProcessingLanguages = (newLanguage, index) => {
-                const processingLanguages = this.state.processingLanguages
                 processingLanguages[index] = newLanguage
-                this.setState({processingLanguages: processingLanguages})
-                console.log(processingLanguages)
+                setState({processingLanguages: processingLanguages})
             }
-            return this.state.processingLanguages.map((language, index)=> {
+            return processingLanguages.map((language, index)=> {
                 return(
                     <div key={index} className='flex flex-column'>
                         <div className='flex justify-around'>
@@ -48,10 +29,10 @@ class Home extends Component {
                             {(index !== 0) ? <FontAwesomeIcon icon={faAngleDown}/> : null}
                         </div>
                         <div className='flex mt1 mb1 ' >
-                            <select className='form-control' value={this.state.processingLanguages[index]} onChange={(e) => updateProcessingLanguages(e.target.value, index)}>
+                            <select className='form-control' value={processingLanguages[index]} onChange={(e) => updateProcessingLanguages(e.target.value, index)}>
                                 <LanguageOptionsMap/>
                             </select>
-                            {(index !== 0) ? <div className='btn btn-danger ml1' onClick={()=>this._removeProcessingLanguage(index)}><FontAwesomeIcon icon={faTimes}/></div> : null}
+                            {(index !== 0) ? <div className='btn btn-danger ml1' onClick={()=>this._removeProcessingLanguage(processingLanguages, index, setState)}><FontAwesomeIcon icon={faTimes}/></div> : null}
                         </div>
                     </div>
                 )
@@ -109,13 +90,13 @@ class Home extends Component {
                 const { language,
                     processingLanguages,
                     lastCalledLanguage,
-                    lastProcessedLanguages,
                     loading,
                     text,
                     rated,
                     rewrite,
                     autocorrect,
                     thesaurus,
+                    translator,
                     setState} = state
                 return(
             <div className=''>
@@ -125,7 +106,6 @@ class Home extends Component {
                         <div>
                             <h1>Full Text Rewriter</h1>
                             <h4>How It Works</h4>
-                            <button onClick={()=>setState('text.sure', 'ok')}>{text}</button>
                             <div className=' flex justify-between items-center'>
                                 <div className='btn btn-primary'>English</div>
                                 <FontAwesomeIcon className='ml2 mr2' icon={faAngleDoubleRight} size='lg'/>
@@ -143,36 +123,36 @@ class Home extends Component {
                         <div className="row rewriter-container">
                             <div className="col-sm-4 flex flex-column">
                                 <h3>Input</h3>
-                                <textarea className='form-control flex-1' value={this.state.text} onChange={(e)=>this.setState({text: e.target.value})}/>
+                                <textarea className='form-control flex-1' value={text} onChange={(e)=>setState({text: e.target.value})}/>
                                 <div className='flex justify-center mt3'>
-                                    <div className="btn btn-primary" onClick={()=>this.setState({text: 'alright, we are about to try something here!'})}>Sample Text</div>
+                                    <div className="btn btn-primary" onClick={()=>setState({text:'alright, we are about to try something here!'})}>Sample Text</div>
                                 </div>
                             </div>
                             <div className="col-sm-4">
                                 <h3>Processing Languages:</h3>
-                                <LanguageSelectorMap />
-                                {(this.state.processingLanguages.length < 5)?
-                                    <div className='btn btn-info mt1' onClick={this._addProcessingLanguage}>Add Language</div>: null}
+                                <LanguageSelectorMap processingLanguages={processingLanguages} setState={setState} />
+                                {(processingLanguages.length < 5)?
+                                    <div className='btn btn-info mt1' onClick={()=>this._addProcessingLanguage(processingLanguages, setState)}>Add Language</div>: null}
                             </div>
                             <div className="col-sm-4 flex flex-column">
                                 <h3>Result</h3>
-                                <div className='rewrite-result flex-1'>{this.state.rewrite}</div>
-                                {(this.state.lastCalledLanguage && !this.state.loading) ?
+                                <div className='rewrite-result flex-1'>{rewrite}</div>
+                                {(lastCalledLanguage && !loading) ?
                                     <div className='w-100'>
-                                        {(!this.state.rated)?<span>Please Rate</span>:<div className='w-100'>Thank You :)</div>}
-                                        {(!this.state.rated)?
+                                        {(!rated)?<span>Please Rate</span>:<div className='w-100'>Thank You :)</div>}
+                                        {(!rated)?
                                         <ul className='pagination pagination-sm flex'>
-                                            <li onClick={()=>this._rateRewrite(1)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>1</li>
-                                            <li onClick={()=>this._rateRewrite(2)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>2</li>
-                                            <li onClick={()=>this._rateRewrite(3)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>3</li>
-                                            <li onClick={()=>this._rateRewrite(4)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>4</li>
-                                            <li onClick={()=>this._rateRewrite(5)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>5</li>
+                                            <li onClick={()=>this._rateRewrite(1, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>1</li>
+                                            <li onClick={()=>this._rateRewrite(2, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>2</li>
+                                            <li onClick={()=>this._rateRewrite(3, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>3</li>
+                                            <li onClick={()=>this._rateRewrite(4, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>4</li>
+                                            <li onClick={()=>this._rateRewrite(5, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>5</li>
                                         </ul>: null}
                                     </div>
                                 : null}
                             </div>
                         </div>
-                        <div className="btn btn-success w-100 mt3 btn_rewrite" onClick={this._rewrite}>REWRITE</div>
+                        <div className="btn btn-success w-100 mt3 btn_rewrite" onClick={()=>this._rewrite(text, language, processingLanguages, setState)}>REWRITE</div>
                     </div>
                 </div>
                 {/*OPTIONS*/}
@@ -181,16 +161,16 @@ class Home extends Component {
                         <h2>Options</h2>
                         <div className='row'>
                             <div className='col-12 col-sm-4 flex items-center'>
-                                <div className='check-box' onClick={()=>this.setState({autocorrect: !this.state.autocorrect})}>{(this.state.autocorrect)? <FontAwesomeIcon className='red' icon={faCheck}/> : null}</div>
+                                <div className='check-box' onClick={()=>setState({autocorrect: !autocorrect})}>{(autocorrect)? <FontAwesomeIcon className='red' icon={faCheck}/> : null}</div>
                                 <h4>Autocorrect</h4>
                             </div>
                             <div className='col-12 col-sm-4 flex items-center'>
-                                <div className='check-box' onClick={()=>this.setState({thesaurus: !this.state.thesaurus})}>{(this.state.thesaurus)? <FontAwesomeIcon className='red' icon={faCheck}/> : null}</div>
+                                <div className='check-box' onClick={()=>setState({thesaurus: !thesaurus})}>{(thesaurus)? <FontAwesomeIcon className='red' icon={faCheck}/> : null}</div>
                                 <h4>Use Thesaurus</h4>
                             </div>
                             <div className='col-12 col-sm-4 flex items-center'>
                                 <h4 >Translator</h4>
-                                <select className='form-control ml2' onChange={(e)=>this.setState({translator: e.target.value})}>
+                                <select className='form-control ml2' onChange={(e)=>setState({translator: e.target.value})}>
                                     <option value='google'>Default</option>
                                     <option value='google'>Google API</option>
                                 </select>
@@ -225,27 +205,26 @@ class Home extends Component {
         )}}</Consumer>
         )
     }
-    _addProcessingLanguage = () => {
-        this.state.processingLanguages.push(defaultAddedLanguage)
-        this.setState({processingLanguages: this.state.processingLanguages})
+    _addProcessingLanguage = (processingLanguages, simpleSetState) => {
+        processingLanguages.push(defaultAddedLanguage)
+        simpleSetState({processingLanguages: processingLanguages})
     }
-    _removeProcessingLanguage = (index) => {
-        this.state.processingLanguages.splice(index, 1)
-        this.setState({processingLanguages: this.state.processingLanguages})
+    _removeProcessingLanguage = (processingLanguages, index, simpleSetState) => {
+        processingLanguages.splice(index, 1)
+        simpleSetState({processingLanguages:  processingLanguages})
     }
-    _rateRewrite = async (rating) => {
-        const wordCount = this.state.text.trim().replace(/\s+/gi, ' ').split(' ').length
-        this.setState({rated: true})
+    _rateRewrite = async (rating, setState, text, language, processingLanguages, translator) => {
+        const wordCount = text.trim().replace(/\s+/gi, ' ').split(' ').length
+        setState({rated: true})
         const variables = {
             rating: rating,
-            language: this.state.language,
-            processingLanguages: this.state.processingLanguages,
-            translator: this.state.translator,
+            language: language,
+            processingLanguages: processingLanguages,
+            translator: translator,
             thesaurus: false,
             autocorrect: false,
             wordCount: wordCount
         }
-        console.log(variables)
         await this.props.rateRewriteMutation({
             variables: variables,
             update: (store, {data: {rateRewrite}})=> {
@@ -253,14 +232,11 @@ class Home extends Component {
             }
         })
     }
-    _rewrite = async ()=>{
-        const text = this.state.text
-        const language = this.state.language
-        const processingLanguages = this.state.processingLanguages
-        this.setState({
-            lastCalledLanguage: this.state.language,
-            lastProcessedLanguages: this.state.processingLanguages,
+    _rewrite = async (text, language, processingLanguages, setState)=>{
+        setState({
             loading: true,
+            lastCalledLanguage: language,
+            lastProcessedLanguages: processingLanguages,
             rated: false
         })
         await this.props.rewriteMutation({
@@ -271,10 +247,7 @@ class Home extends Component {
             },
             update: (store, {data: {rewrite}})=>{
                 console.log(rewrite)
-                this.setState({
-                    rewrite: rewrite.rewrite,
-                    loading: false
-                })
+                setState({rewrite: rewrite.rewrite, loading: false})
             }
         })
     }
