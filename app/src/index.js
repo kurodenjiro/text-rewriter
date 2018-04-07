@@ -7,6 +7,7 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo';
+import { Provider } from "./Context"
 
 const API_URL = process.env.API_URL
 
@@ -16,8 +17,10 @@ const client = new ApolloClient({
 })
 ReactDOM.render(
     <BrowserRouter>
-        <ApolloProvider client={client}>
-            <App />
-        </ApolloProvider>
+        <Provider>
+            <ApolloProvider client={client}>
+                <App />
+            </ApolloProvider>
+        </Provider>
     </BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();

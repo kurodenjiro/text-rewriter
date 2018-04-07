@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { languages } from "../constants";
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faTimes, faAngleDoubleRight, faCheck, faAngleDown, faStar } from '@fortawesome/fontawesome-free-solid'
+import { Consumer} from "../Context"
 
 const defaultAddedLanguage = 'es'
 
@@ -104,6 +105,19 @@ class Home extends Component {
             }
         }
         return (
+            <Consumer>{(state)=>{
+                const { language,
+                    processingLanguages,
+                    lastCalledLanguage,
+                    lastProcessedLanguages,
+                    loading,
+                    text,
+                    rated,
+                    rewrite,
+                    autocorrect,
+                    thesaurus,
+                    setState} = state
+                return(
             <div className=''>
                 {/*HEADER*/}
                 <div className='row'>
@@ -111,6 +125,7 @@ class Home extends Component {
                         <div>
                             <h1>Full Text Rewriter</h1>
                             <h4>How It Works</h4>
+                            <button onClick={()=>setState('text.sure', 'ok')}>{text}</button>
                             <div className=' flex justify-between items-center'>
                                 <div className='btn btn-primary'>English</div>
                                 <FontAwesomeIcon className='ml2 mr2' icon={faAngleDoubleRight} size='lg'/>
@@ -207,6 +222,7 @@ class Home extends Component {
                     </div>
                 </div>
             </div>
+        )}}</Consumer>
         )
     }
     _addProcessingLanguage = () => {
