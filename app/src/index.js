@@ -25,6 +25,10 @@ const defaultState = {
     //     avgRating: '3.1',
     //     ratingCount: 3
     // }]
+    rewrite: {
+        rewrit2: '2',
+        __typename: 'Rewrite'
+    }
 }
 
 const stateLink = withClientState({
@@ -32,11 +36,11 @@ const stateLink = withClientState({
     defaults: defaultState,
     resolvers: {
         Mutation: {
-            rateRewrite: (_, { rating, language, processingLanguages, translator, thesaurus, autocorrect, wordCount}, { cache }) => {
+            rateRewrite: (_, { rating, language, processingLanguages, translator, thesaurus, autocorrect, wordCount}, { cache }) => {//TODO NONE OF THIS CODE IS USED, ONLY FOR EXAMPLE
                 const query = gql`
 query GetLanguageCombinations{ LanguageCombinations @client { 
     id processingLanguages language translator ratingCount avgRating
-}}`
+}}` //todo this is the real query
                 const previousState = cache.readQuery({ query })
                 const data = {
                     ...previousState,//everything not from this query
@@ -57,12 +61,13 @@ query GetLanguageCombinations{ LanguageCombinations @client {
                         }
                     ]
                 }
+                //todo call a query refetch
                 cache.writeData({ query, data })
-                console.log('prev', previousState, data, rating, language, processingLanguages, translator, thesaurus, autocorrect, wordCount)
             },
             rewrite: (_, { text, language, processingLanguages }, { cache }) => {
                 console.log('rewrite...',text, language, processingLanguages)
                 return { rewrite: 'ok'}
+                //todo call actual query
             }
         }
     }

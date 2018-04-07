@@ -8,15 +8,15 @@ import { Consumer } from "../Context"
 import LanguageSelectorMap from './LanguageSelector'
 import LanguageCombinationsMap from './LanguageCombinationsMap'
 import RewriterHeader from './RewriterHeader'
-import Options from './Options'
+import RewriterOptions from './RewriterOptions'
 
 const defaultAddedLanguage = 'es'
 
 class Home extends Component {
     render() {
             console.log(this.props)
-        const {LanguageCombinations} = this.props
-
+        const {LanguageCombinations, rewriteMutation} = this.props
+        console.log(rewriteMutation)
         return (
             <Consumer>{(state)=>{
                 const { language,
@@ -74,7 +74,11 @@ class Home extends Component {
                     </div>
                 </div>
                 {/*OPTIONS*/}
-                <Options setState={setState} autocorrect={autocorrect} thesaurus={thesaurus} translator={translator} />
+                <RewriterOptions
+                    setState={setState}
+                    autocorrect={autocorrect}
+                    thesaurus={thesaurus}
+                    translator={translator} />
                 {/*RATINGS*/}
                 <div className='mt5 col-12'>
                     <h1>Ratings</h1>
@@ -157,7 +161,7 @@ export default compose(
         props: ({data}) => {
             console.log(data)
             const { LanguageCombinations } = data
-            return {LanguageCombinations}
+            return { LanguageCombinations }
         }
     }),
     graphql(CREATE_RATING_MUTATION, {name: 'rateRewriteMutation'})

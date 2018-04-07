@@ -2,7 +2,7 @@ import React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import {faCheck} from "@fortawesome/fontawesome-free-solid/index";
 
-const Options = ({setState, autocorrect, thesaurus, translator}) =>
+const RewriterOptions = ({setState, autocorrect, thesaurus, translator}) =>
     <div className='row'>
         <div className='container pb3'>
             <h2>Options</h2>
@@ -26,4 +26,4 @@ const Options = ({setState, autocorrect, thesaurus, translator}) =>
         </div>
     </div>
 
-export default Options
+export default RewriterOptions
