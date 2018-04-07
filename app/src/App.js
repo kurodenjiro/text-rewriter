@@ -4,7 +4,6 @@ import API from './components/API'
 import Home from './components/Home'
 import Footer from './components/Footer'
 import './scss/index.scss'
-import { Context} from "./Context";
 
 class App extends Component {
     constructor(props) {
@@ -14,7 +13,6 @@ class App extends Component {
     }
     render() {
         return (
-            <Context.Provider value={{text: 'ok'}}>
             <div className="App">
                 <Switch>
                     <Route exact path='/api' component={()=><API />} />
@@ -22,7 +20,6 @@ class App extends Component {
                 </Switch>
                 <Footer />
             </div>
-            </Context.Provider>
         )
     }
 }
