@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import {graphql, compose} from 'react-apollo'
-import { languages } from "../constants";
 import { REWRITE_MUTATION, CREATE_RATING_MUTATION} from "../graphql/mutations"
 import { LANGUAGE_COMBINATIONS_QUERY} from "../graphql/queries"
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faTimes, faAngleDoubleRight, faCheck, faAngleDown, faStar } from '@fortawesome/fontawesome-free-solid'
+import { faStar } from '@fortawesome/fontawesome-free-solid'
 import { Consumer } from "../Context"
+import LanguageSelectorMap from './LanguageSelector'
+import LanguageCombinationsMap from './LanguageCombinationsMap'
+import RewriterHeader from './RewriterHeader'
+import Options from './Options'
 
 const defaultAddedLanguage = 'es'
 
@@ -14,82 +17,6 @@ class Home extends Component {
             console.log(this.props)
         const {LanguageCombinations} = this.props
 
-        const LanguageSelectorMap = ({processingLanguages, setState }) => {
-                const LanguageOptionsMap = () => languages.map(language => {
-                    return <option key={language.symbol} value={language.symbol}>{language.language}</option>
-                })//
-
-                //map options of languages here up to 5
-                const updateProcessingLanguages = (newLanguage, index) => {
-                    processingLanguages[index] = newLanguage
-                    setState({processingLanguages: processingLanguages})
-                }
-                return processingLanguages.map((language, index) => {
-                    return (
-                        <div key={index} className='flex flex-column'>
-                            <div className='flex justify-around'>
-                                {(index !== 0) ? <FontAwesomeIcon icon={faAngleDown}/> : null}
-                                {(index !== 0) ? <FontAwesomeIcon icon={faAngleDown}/> : null}
-                                {(index !== 0) ? <FontAwesomeIcon icon={faAngleDown}/> : null}
-                            </div>
-                            <div className='flex mt1 mb1 '>
-                                <select className='form-control' value={processingLanguages[index]}
-                                        onChange={(e) => updateProcessingLanguages(e.target.value, index)}>
-                                    <LanguageOptionsMap/>
-                                </select>
-                                {(index !== 0) ? <div className='btn btn-danger ml1'
-                                                      onClick={() => this._removeProcessingLanguage(processingLanguages, index, setState)}>
-                                    <FontAwesomeIcon icon={faTimes}/></div> : null}
-                            </div>
-                        </div>
-                    )
-                })
-        }
-        const LanguageCombinationsMap = () => {
-            if (LanguageCombinations){
-                return LanguageCombinations.map((languageCombination,index)=>{
-                    //mapping languageCombinations
-                    const languageIndex = languages.map(language=>language.symbol).indexOf(languageCombination.language)
-                    const languageStartEnd = languages[languageIndex].language
-                    const ProcessingLanguageMap = () => {
-                        //mapping processingLanguages
-                        return languageCombination.processingLanguages.map((processingLanguage, index) => {
-                            const processingLanguageIndex = languages.map(language=>language.symbol).indexOf(processingLanguage)
-                            const processingLanguageL = languages[processingLanguageIndex].language
-                            return(
-                                <div className='flex justify-between items-center' key={index}>
-                                    {(index===0)?null:<FontAwesomeIcon className='ml2 mr2' icon={faAngleDoubleRight} size='lg'/>}
-                                    <div className='btn btn-info'>{processingLanguageL}</div>
-                                </div>
-                            )
-                        })
-                    }
-                    return(
-                        <tr key={index}>
-                            <th scope='row'>{index+1}</th>
-                            <td>
-                                <div className='btn btn-primary'>{languageStartEnd}</div>
-                            </td>
-                            <td className='flex justify-center items-center'>
-                                <ProcessingLanguageMap />
-                            </td>
-                            <td>{languageCombination.avgRating}</td>
-                            <td>{languageCombination.ratingCount}</td>
-                        </tr>
-                    )
-                })
-            } else {
-                return(
-                    <tr>
-                        <th scope='row'>1</th>
-                        <td>English</td>
-                        <td>Processing Language</td>
-                        <td>Score</td>
-                        <td>Ratings</td>
-                    </tr>
-                )
-            }
-        }
         return (
             <Consumer>{(state)=>{
                 const { language,
@@ -106,21 +33,7 @@ class Home extends Component {
                 return(
             <div className=''>
                 {/*HEADER*/}
-                <div className='row'>
-                    <div className='col-12 d-flex justify-content-center align-items-center'>
-                        <div>
-                            <h1>Full Text Rewriter</h1>
-                            <h4>How It Works</h4>
-                            <div className=' flex justify-between items-center'>
-                                <div className='btn btn-primary'>English</div>
-                                <FontAwesomeIcon className='ml2 mr2' icon={faAngleDoubleRight} size='lg'/>
-                                <div className='btn btn-info'>Processing Languages</div>
-                                <FontAwesomeIcon className='ml2 mr2' icon={faAngleDoubleRight} size='lg'/>
-                                <div className='btn btn-success'>English</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <RewriterHeader/>
                 {/*REWRITER*/}
                 <div className='row mt3'>
                     <div className='container'>
@@ -161,28 +74,7 @@ class Home extends Component {
                     </div>
                 </div>
                 {/*OPTIONS*/}
-                <div className='row'>
-                    <div className='container pb3'>
-                        <h2>Options</h2>
-                        <div className='row'>
-                            <div className='col-12 col-sm-4 flex items-center'>
-                                <div className='check-box' onClick={()=>setState({autocorrect: !autocorrect})}>{(autocorrect)? <FontAwesomeIcon className='red' icon={faCheck}/> : null}</div>
-                                <h4>Autocorrect</h4>
-                            </div>
-                            <div className='col-12 col-sm-4 flex items-center'>
-                                <div className='check-box' onClick={()=>setState({thesaurus: !thesaurus})}>{(thesaurus)? <FontAwesomeIcon className='red' icon={faCheck}/> : null}</div>
-                                <h4>Use Thesaurus</h4>
-                            </div>
-                            <div className='col-12 col-sm-4 flex items-center'>
-                                <h4 >Translator</h4>
-                                <select className='form-control ml2' onChange={(e)=>setState({translator: e.target.value})}>
-                                    <option value='google'>Default</option>
-                                    <option value='google'>Google API</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Options setState={setState} autocorrect={autocorrect} thesaurus={thesaurus} translator={translator} />
                 {/*RATINGS*/}
                 <div className='mt5 col-12'>
                     <h1>Ratings</h1>
@@ -201,7 +93,7 @@ class Home extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <LanguageCombinationsMap />
+                                <LanguageCombinationsMap LanguageCombinations={LanguageCombinations} />
                             </tbody>
                         </table>
                     </div>
