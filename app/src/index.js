@@ -10,68 +10,15 @@ import { ApolloProvider } from 'react-apollo';
 import { Provider } from "./Context"
 import { withClientState } from 'apollo-link-state'
 import { ApolloLink } from 'apollo-link'
-import gql from "graphql-tag";
 
 const API_URL = process.env.API_URL
 const cache = new InMemoryCache()
-const defaultState = {
-    // only need if waiting before mutation
-    // LanguageCombinations: [{//if want query name, put query: { LanguageCombinations: [...] }
-    //     __typename: 'LanguageCombination',
-    //     id: '2',
-    //     language: 'en',
-    //     translator: 'google',
-    //     processingLanguages: ['es'],
-    //     avgRating: '3.1',
-    //     ratingCount: 3
-    // }]
-    rewrite: {
-        rewrit2: '2',
-        __typename: 'Rewrite'
-    }
-}
+const defaultState = { }
 
 const stateLink = withClientState({
     cache,
     defaults: defaultState,
-    resolvers: {
-        Mutation: {
-            rateRewrite: (_, { rating, language, processingLanguages, translator, thesaurus, autocorrect, wordCount}, { cache }) => {//TODO NONE OF THIS CODE IS USED, ONLY FOR EXAMPLE
-                console.log('this shouldnt run')
-                const query = gql`
-query GetLanguageCombinations{ LanguageCombinations @client { 
-    id processingLanguages language translator ratingCount avgRating
-}}` //todo this is the real query
-                const previousState = cache.readQuery({ query })
-                const data = {
-                    ...previousState,//everything not from this query
-                    LanguageCombinations: [//this query
-                        ...previousState.LanguageCombinations,//existing array
-                        {//new item
-                            __typename: 'LanguageCombination',
-                            id: '4',
-                            rating: rating,
-                            language: language,
-                            processingLanguages: processingLanguages,
-                            translator: translator,
-                            thesaurus: thesaurus,
-                            autocorrect: autocorrect,
-                            wordCount: wordCount,
-                            avgRating: '2.0',
-                            ratingCount: 9
-                        }
-                    ]
-                }
-                //todo call a query refetch
-                cache.writeData({ query, data })
-            },
-            rewrite: (_, { text, language, processingLanguages }, { cache }) => {
-                console.log('rewrite...',text, language, processingLanguages)
-                return { rewrite: 'ok'}
-                //todo call actual query
-            }
-        }
-    }
+    resolvers: { Mutation: { } }
 })
 
 const client = new ApolloClient({
