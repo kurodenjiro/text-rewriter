@@ -35,8 +35,8 @@ const LanguageCombination = Conn.define('languageCombination',{
             return JSON.parse(this.getDataValue('processingLanguages'))
         },
         set: function(val){
-                const stringifiedArray = JSON.stringify(val) //removes spaces and uses only " not '
-                this.setDataValue('processingLanguages', stringifiedArray)
+            const stringifiedArray = (typeof val !== 'string')?JSON.stringify(val):val//removes spaces and uses only " not ', findOrCreate pre-stringifies it
+            this.setDataValue('processingLanguages', stringifiedArray)
         },
     },
     language: {
@@ -46,7 +46,6 @@ const LanguageCombination = Conn.define('languageCombination',{
         type: Sequelize.STRING
     },
 })
-
 /*   Relations   */
 LanguageCombination.hasMany(Rating)
 Rating.belongsTo(LanguageCombination)
