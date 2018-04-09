@@ -12,13 +12,13 @@ import RewriterOptions from './RewriterOptions'
 
 const defaultAddedLanguage = 'es'
 
-class Home extends Component {
+class Home extends Component {//todo stop new language adding - update
     render() {
         const {LanguageCombinations,
             loading,
             error } = this.props
         return (
-            <Consumer>{(state)=>{
+            <Consumer>{(context)=>{
                 const { language,
                     processingLanguages,
                     lastCalledLanguage,
@@ -29,7 +29,7 @@ class Home extends Component {
                     autocorrect,
                     thesaurus,
                     translator,
-                    setState} = state
+                    setContext } = context
                 return(
             <div className=''>
                 {/*HEADER*/}
@@ -41,19 +41,19 @@ class Home extends Component {
                         <div className="row rewriter-container">
                             <div className="col-sm-4 flex flex-column">
                                 <h3>Input</h3>
-                                <textarea className='form-control flex-1' value={text} onChange={(e)=>setState({text: e.target.value})}/>
+                                <textarea className='form-control flex-1' value={text} onChange={(e)=>setContext({text: e.target.value})}/>
                                 <div className='flex justify-center mt3'>
-                                    <div className="btn btn-primary" onClick={()=>setState({text:'alright, we are about to try something here!'})}>Sample Text</div>
+                                    <div className="btn btn-primary" onClick={()=>setContext({text:'alright, we are about to try something here!'})}>Sample Text</div>
                                 </div>
                             </div>
                             <div className="col-sm-4">
                                 <h3>Processing Languages:</h3>
                                 <LanguageSelectorMap
                                     processingLanguages={processingLanguages}
-                                    setState={setState}
+                                    setContext={setContext}
                                     removeProcessingLanguage={this._removeProcessingLanguage}/>
                                 {(processingLanguages.length < 5)?
-                                    <div className='btn btn-info mt1' onClick={()=>this._addProcessingLanguage(processingLanguages, setState)}>Add Language</div>: null}
+                                    <div className='btn btn-info mt1' onClick={()=>this._addProcessingLanguage(processingLanguages, setContext)}>Add Language</div>: null}
                             </div>
                             <div className="col-sm-4 flex flex-column">
                                 <h3>Result</h3>
@@ -63,22 +63,19 @@ class Home extends Component {
                                         {(!rated)?<span>Please Rate</span>:<div className='w-100'>Thank You :)</div>}
                                         {(!rated)?
                                         <ul className='pagination pagination-sm flex'>
-                                            <li onClick={()=>this._rateRewrite(1, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>1</li>
-                                            <li onClick={()=>this._rateRewrite(2, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>2</li>
-                                            <li onClick={()=>this._rateRewrite(3, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>3</li>
-                                            <li onClick={()=>this._rateRewrite(4, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>4</li>
-                                            <li onClick={()=>this._rateRewrite(5, setState, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>5</li>
+                                            {Array(5).fill().map((_, index)=>{
+                                            return(<li key={index} onClick={()=>this._rateRewrite(index+1, setContext, text, language, processingLanguages, translator)} className='page-item page-link flex-1'><FontAwesomeIcon icon={faStar}/><br/>{index+1}</li>)})}
                                         </ul>: null}
                                     </div>
                                 : null}
                             </div>
                         </div>
-                        <div className="btn btn-success w-100 mt3 btn_rewrite" onClick={()=>this._rewrite(text, language, processingLanguages, setState)}>REWRITE</div>
+                        <div className="btn btn-success w-100 mt3 btn_rewrite" onClick={()=>this._rewrite(text, language, processingLanguages, setContext)}>REWRITE</div>
                     </div>
                 </div>
                 {/*OPTIONS*/}
                 <RewriterOptions
-                    setState={setState}
+                    setContext={setContext}
                     autocorrect={autocorrect}
                     thesaurus={thesaurus}
                     translator={translator} />
@@ -100,7 +97,9 @@ class Home extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <LanguageCombinationsMap LanguageCombinations={LanguageCombinations} />
+                                <LanguageCombinationsMap
+                                    LanguageCombinations={LanguageCombinations}
+                                    queryLoading={loading} queryError={error}/>
                             </tbody>
                         </table>
                     </div>
@@ -109,18 +108,18 @@ class Home extends Component {
         )}}</Consumer>
         )
     }
-    _addProcessingLanguage = (processingLanguages, setState) => {
+    _addProcessingLanguage = (processingLanguages, setContext) => {
         processingLanguages.push(defaultAddedLanguage)
-        setState({processingLanguages: processingLanguages})
+        setContext({processingLanguages: processingLanguages})
     }
-    _removeProcessingLanguage = (processingLanguages, index, setState) => {
+    _removeProcessingLanguage = (processingLanguages, index, setContext) => {
         processingLanguages.splice(index, 1)
-        setState({processingLanguages:  processingLanguages})
+        setContext({processingLanguages:  processingLanguages})
     }
-    _rateRewrite = async (rating, setState, text, language, processingLanguages, translator) => {
+    _rateRewrite = async (rating, setContext, text, language, processingLanguages, translator) => {
         //todo having processing languages issue when donig 2 rewrites, or from adding languages
         const wordCount = text.trim().replace(/\s+/gi, ' ').split(' ').length
-        setState({rated: true})
+        setContext({rated: true})
         const variables = {
             rating: rating,
             language: language,
@@ -137,8 +136,8 @@ class Home extends Component {
             }
         })
     }
-    _rewrite = async (text, language, processingLanguages, setState)=>{
-        setState({
+    _rewrite = async (text, language, processingLanguages, setContext)=>{
+        setContext({
             loading: true,
             lastCalledLanguage: language,
             lastProcessedLanguages: processingLanguages,
@@ -152,7 +151,7 @@ class Home extends Component {
             },
             update: (store, {data: {rewrite}})=>{
                 console.log(rewrite)
-                setState({rewrite: rewrite.rewrite, loading: false})
+                setContext({rewrite: rewrite.rewrite, loading: false})
             }
         })
     }

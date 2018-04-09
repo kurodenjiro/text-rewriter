@@ -82,14 +82,16 @@ export default {
             })
         },
         rateRewrite: async (_, data) => {
+            console.log(data)
             return new Promise((resolve, reject) => {
-                db.models.languageCombination.findOrCreate({
+                db.models.languageCombination.find({//todo fix this adding new language when not needed
                     where: {
-                        processingLanguages: data.processingLanguages,
+                        processingLanguages: data.processingLanguages,//may have to parse this for checking if it exists, and not when you're making it? may be causing the problem
                         language: data.language,
                         translator: data.translator
                     }
-                }).spread((languageCombination, createdNewLanguageCombination) => {
+                }).then((languageCombination, createdNewLanguageCombination) => {
+                    console.log(languageCombination, createdNewLanguageCombination)
                     languageCombination.createRating({
                         rating: data.rating,
                         wordCount: data.wordCount
