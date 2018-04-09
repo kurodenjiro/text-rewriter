@@ -24,6 +24,9 @@ export class Provider extends Component {
         this.functions = {
             setState: async (updatedState)=>{
                 await this.setState(updatedState)
+            },
+            setContext: async (updatedState)=> {
+                await this.setState(updatedState)
             }
         }
     }

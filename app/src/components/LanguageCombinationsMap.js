@@ -42,10 +42,10 @@ const LanguageCombinationsMap = ({LanguageCombinations}) => {
         return (
             <tr>
                 <th scope='row'>1</th>
-                <td>English</td>
-                <td>Processing Language</td>
-                <td>Score</td>
-                <td>Ratings</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
             </tr>
         )
     }

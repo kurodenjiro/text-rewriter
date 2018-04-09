@@ -3,7 +3,7 @@ import { languages } from "../constants";
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faTimes, faAngleDown } from '@fortawesome/fontawesome-free-solid'
 
-const LanguageSelectorMap = ({processingLanguages, setState }) => {
+const LanguageSelectorMap = ({processingLanguages, setState, removeProcessingLanguage }) => {
     const LanguageOptionsMap = () => languages.map(language => {
         return <option key={language.symbol} value={language.symbol}>{language.language}</option>
     })//
@@ -27,7 +27,7 @@ const LanguageSelectorMap = ({processingLanguages, setState }) => {
                         <LanguageOptionsMap/>
                     </select>
                     {(index !== 0) ? <div className='btn btn-danger ml1'
-                                          onClick={() => this._removeProcessingLanguage(processingLanguages, index, setState)}>
+                                          onClick={() => removeProcessingLanguage(processingLanguages, index, setState)}>
                         <FontAwesomeIcon icon={faTimes}/></div> : null}
                 </div>
             </div>

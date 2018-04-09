@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const REWRITE_MUTATION = gql`
 mutation RewriteMutation($text: String!, $language: String!, $processingLanguages: [String]) {
-    rewrite(text: $text, language: $language, processingLanguages: $processingLanguages) @client{
+    rewrite(text: $text, language: $language, processingLanguages: $processingLanguages) {
         rewrite
 }}`
 export const CREATE_RATING_MUTATION = gql`

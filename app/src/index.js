@@ -37,6 +37,7 @@ const stateLink = withClientState({
     resolvers: {
         Mutation: {
             rateRewrite: (_, { rating, language, processingLanguages, translator, thesaurus, autocorrect, wordCount}, { cache }) => {//TODO NONE OF THIS CODE IS USED, ONLY FOR EXAMPLE
+                console.log('this shouldnt run')
                 const query = gql`
 query GetLanguageCombinations{ LanguageCombinations @client { 
     id processingLanguages language translator ratingCount avgRating

@@ -30,13 +30,13 @@ const Rating = Conn.define('rating',{
 })
 const LanguageCombination = Conn.define('languageCombination',{
     processingLanguages: {
-        type: Sequelize.STRING, //DOESN'T WORK
+        type: Sequelize.STRING,
         get: function(){
             return JSON.parse(this.getDataValue('processingLanguages'))
         },
         set: function(val){
-          const stringifiedArray = JSON.stringify(val) //removes spaces and uses only " not '
-          this.setDataValue('processingLanguages', stringifiedArray)
+                const stringifiedArray = JSON.stringify(val) //removes spaces and uses only " not '
+                this.setDataValue('processingLanguages', stringifiedArray)
         },
     },
     language: {

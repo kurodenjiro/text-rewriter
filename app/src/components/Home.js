@@ -14,9 +14,9 @@ const defaultAddedLanguage = 'es'
 
 class Home extends Component {
     render() {
-            console.log(this.props)
-        const {LanguageCombinations, rewriteMutation} = this.props
-        console.log(rewriteMutation)
+        const {LanguageCombinations,
+            loading,
+            error } = this.props
         return (
             <Consumer>{(state)=>{
                 const { language,
@@ -48,7 +48,10 @@ class Home extends Component {
                             </div>
                             <div className="col-sm-4">
                                 <h3>Processing Languages:</h3>
-                                <LanguageSelectorMap processingLanguages={processingLanguages} setState={setState} />
+                                <LanguageSelectorMap
+                                    processingLanguages={processingLanguages}
+                                    setState={setState}
+                                    removeProcessingLanguage={this._removeProcessingLanguage}/>
                                 {(processingLanguages.length < 5)?
                                     <div className='btn btn-info mt1' onClick={()=>this._addProcessingLanguage(processingLanguages, setState)}>Add Language</div>: null}
                             </div>
@@ -106,15 +109,16 @@ class Home extends Component {
         )}}</Consumer>
         )
     }
-    _addProcessingLanguage = (processingLanguages, simpleSetState) => {
+    _addProcessingLanguage = (processingLanguages, setState) => {
         processingLanguages.push(defaultAddedLanguage)
-        simpleSetState({processingLanguages: processingLanguages})
+        setState({processingLanguages: processingLanguages})
     }
-    _removeProcessingLanguage = (processingLanguages, index, simpleSetState) => {
+    _removeProcessingLanguage = (processingLanguages, index, setState) => {
         processingLanguages.splice(index, 1)
-        simpleSetState({processingLanguages:  processingLanguages})
+        setState({processingLanguages:  processingLanguages})
     }
     _rateRewrite = async (rating, setState, text, language, processingLanguages, translator) => {
+        //todo having processing languages issue when donig 2 rewrites, or from adding languages
         const wordCount = text.trim().replace(/\s+/gi, ' ').split(' ').length
         setState({rated: true})
         const variables = {
@@ -129,7 +133,7 @@ class Home extends Component {
         await this.props.rateRewriteMutation({
             variables: variables,
             update: (store, {data: {rateRewrite}})=> {
-                //this.props.languageCombinationsQuery.refetch()
+                this.props.refetchLanguageCombinations()
             }
         })
     }
@@ -159,9 +163,8 @@ export default compose(
     graphql(REWRITE_MUTATION, {name: 'rewriteMutation'}),
     graphql(LANGUAGE_COMBINATIONS_QUERY, {
         props: ({data}) => {
-            console.log(data)
-            const { LanguageCombinations } = data
-            return { LanguageCombinations }
+            const { LanguageCombinations, loading, error, refetch : refetchLanguageCombinations } = data
+            return { LanguageCombinations, loading, error, refetchLanguageCombinations }
         }
     }),
     graphql(CREATE_RATING_MUTATION, {name: 'rateRewriteMutation'})

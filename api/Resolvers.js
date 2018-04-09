@@ -85,7 +85,7 @@ export default {
             return new Promise((resolve, reject) => {
                 db.models.languageCombination.findOrCreate({
                     where: {
-                        processingLanguages: JSON.stringify(data.processingLanguages),
+                        processingLanguages: data.processingLanguages,
                         language: data.language,
                         translator: data.translator
                     }
