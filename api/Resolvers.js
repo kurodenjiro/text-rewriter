@@ -1,9 +1,9 @@
 import { find, filter } from 'lodash'
-//import ToDo from './models/db'
 import db from './models/db'
 const translate = require('google-translate-api')
 //const thesaurus = require('thesaurus')
 //https://www.npmjs.com/package/thesaurus
+import rewriteText from './utils/rewriteText.utils'
 
 export default {
     Query: {
@@ -44,43 +44,7 @@ export default {
         }
     },
     Mutation: {
-        //TODO SWITCH OUT CONTRACTIONS
-        //TODO THESAURUS SHOULD BE ADDED AFTER REWRITE IF THERE ARE SIMILAR MATCHES OR WHAT NOT
-        rewrite: async (_, data) => {
-            const textToRewrite = data.text
-            const baseLanguage = (data.language) ? data.language: 'en'
-            const processingLanguages = (data.processingLanguages && data.processingLanguages.length > 0) ? data.processingLanguages : ['es']
-            await processingLanguages.push('en')
-
-            let processedRewrite = textToRewrite
-            return new Promise((resolve, reject) => {
-                let index = 0
-
-                const next = async () => {
-                    if (index < processingLanguages.length) {
-                        const startLanguage = (index === 0) ? baseLanguage : processingLanguages[index - 1]
-                        /* res.text , res.from.text.autoCorrected , res.from.text.value , res.from.text.didYouMean , res.from.language.iso (detecting) */
-                        translate(processedRewrite, {from: startLanguage, to: processingLanguages[index]}).then(res => {
-                            console.log('translating from ' + startLanguage + ' to ' + processingLanguages[index])
-                            console.log(processedRewrite + ' ...became... ' + res.text)
-                            processedRewrite = res.text
-                            index++
-                            next()
-                        }).catch(err => {
-                            console.error(err);
-                        })
-                    } else {
-                        //TODO DEAL WITH THESAURUS HERE
-                        resolve(Object.assign({},
-                            {
-                                text: textToRewrite,
-                                rewrite: processedRewrite
-                            }))
-                    }
-                }
-                next()
-            })
-        },
+        rewrite: (_, data)=>rewriteText(data),
         rateRewrite: async (_, data) => {
             console.log(data)
             return new Promise((resolve, reject) => {
