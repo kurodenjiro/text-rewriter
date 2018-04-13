@@ -31,6 +31,14 @@ const sendThroughThesaurus = async (origionalText, rewrite) => {
     //todo compare both sentences
     //todo create simple model: use wordpos to find adjectives/nouns, specify length, check if in origionalText, if so, use thesaurus (see if can get rating of how likely thesaurus would work), check word count to make sure under 500 or something
     return new Promise((resolve, reject)=>{
+        //1. get rid of contractions
+
+        //2. get info from wordpos
+
+        //3. check if adjectives existed in origional text, and occurance number
+
+        //4. change the first adjective to one thesaurus result, more in the future
+
         resolve(rewrite)
     })
 }
