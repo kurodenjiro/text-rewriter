@@ -12,7 +12,7 @@ import RewriterOptions from './RewriterOptions'
 
 const defaultAddedLanguage = 'es'
 
-class Home extends Component {//todo stop new language adding - update
+class Home extends Component {//todo stop new language adding - update?
     render() {
         const {LanguageCombinations,
             loading,
@@ -70,7 +70,7 @@ class Home extends Component {//todo stop new language adding - update
                                 : null}
                             </div>
                         </div>
-                        <div className="btn btn-success w-100 mt3 btn_rewrite" onClick={()=>this._rewrite(text, language, processingLanguages, setContext)}>REWRITE</div>
+                        <div className="btn btn-success w-100 mt3 btn_rewrite" onClick={()=>this._rewrite(text, language, processingLanguages, autocorrect, thesaurus, translator, setContext)}>REWRITE</div>
                     </div>
                 </div>
                 {/*OPTIONS*/}
@@ -136,7 +136,7 @@ class Home extends Component {//todo stop new language adding - update
             }
         })
     }
-    _rewrite = async (text, language, processingLanguages, setContext)=>{
+    _rewrite = async (text, language, processingLanguages, autocorrect, thesaurus, translator, setContext)=>{
         setContext({
             loading: true,
             lastCalledLanguage: language,
@@ -147,7 +147,10 @@ class Home extends Component {//todo stop new language adding - update
             variables: {
                 text: text,
                 language: language,
-                processingLanguages: processingLanguages
+                processingLanguages: processingLanguages,
+                autocorrect: autocorrect,
+                thesaurus: thesaurus,
+                translator: translator
             },
             update: (store, {data: {rewrite}})=>{
                 console.log(rewrite)
