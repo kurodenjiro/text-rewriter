@@ -72,7 +72,7 @@
   "scripts": {
     "start": "env-cmd ../.env node scripts/start.js",
     "build": "env-cmd ../.env node scripts/build.js",
-    "test": "set NODE_ENV=test&& mocha --compilers js:babel-register --require ./test/helpers.js --require ./test/dom.js --recursive"
+    "test": "set NODE_ENV=test&& mocha --compilers js:babel-register --require ignore-styles --require ./test/helpers.js --require ./test/dom.js --recursive"
   },
   "jest": {
     "collectCoverageFrom": [
