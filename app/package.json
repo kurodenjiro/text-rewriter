@@ -72,7 +72,7 @@
   "scripts": {
     "start": "env-cmd ../.env node scripts/start.js",
     "build": "env-cmd ../.env node scripts/build.js",
-    "test": "set NODE_ENV=test&& mocha --compilers js:babel-register --require ./test/helpers.js --require ./test/dom.js --recursive"
+    "test": "set NODE_ENV=test&& mocha --compilers js:babel-register --require ignore-styles --require ./test/helpers.js --require ./test/dom.js --recursive"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -111,8 +111,10 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.26.0",
     "chai": "^4.1.2",
     "chai-jquery": "^2.0.0",
+    "css-modules-require-hook": "^4.2.3",
     "env-cmd": "^7.0.0",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
