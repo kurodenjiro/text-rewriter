@@ -7,42 +7,42 @@ const defaultProps = {
     text: 'this is my child ;)'
 }
 
-describe('Home', () => {
-    it('should return true', ()=>{
-        expect(true).to.equal(true);
-    })
-    const mockedData = {
-        languageCombinations: [
-            { __typename: 'languageCombination', id: '1', processingLanguages: ['es'], language: 'en', avgRating: '3.2', ratingCount: 6, ratings: []}
-        ]
-    }
-    const query = LANGUAGE_COMBINATIONS_QUERY//addTypenameToDocument(LANGUAGE_COMBINATIONS_QUERY)
-    const variables = {cache: false}
-    const wrapper = shallow(
-        <MockedProvider mocks={[
-                { request: { query, variables }, result: { data: mockedData }}
-            ]}>
-            <Home/>
-        </MockedProvider>);
-    const mountedWrapper = mount(
-        <MockedProvider mocks={[
-            { request: { query, variables }, result: { data: mockedData }}
-        ]}>
-            <Home/>
-        </MockedProvider>)
-    // const renderedWrapper = mount(<Child/>)
-    it('mockedprovider to have Home component', () => {
-        expect(wrapper.contains(<Home />)).to.equal(true);
-    });
-    it('Rewrite btn to exist and work', () => {
-        const rewriteBtn = mountedWrapper.find('.btn_rewrite')
-        expect(rewriteBtn).to.have.length(1);
-        mountedWrapper.find('textarea').get(0).value('this should be rewritten')
-        rewriteBtn.simulate('click')
-        expect(mountedWrapper.find('rewrite-result')).to.have.value('string')
-    });
-
-})
+// describe('Home', () => {
+//     it('should return true', ()=>{
+//         expect(true).to.equal(true);
+//     })
+//     const mockedData = {
+//         languageCombinations: [
+//             { __typename: 'languageCombination', id: '1', processingLanguages: ['es'], language: 'en', avgRating: '3.2', ratingCount: 6, ratings: []}
+//         ]
+//     }
+//     const query = LANGUAGE_COMBINATIONS_QUERY//addTypenameToDocument(LANGUAGE_COMBINATIONS_QUERY)
+//     const variables = {cache: false}
+//     const wrapper = shallow(
+//         <MockedProvider mocks={[
+//                 { request: { query, variables }, result: { data: mockedData }}
+//             ]}>
+//             <Home/>
+//         </MockedProvider>);
+//     const mountedWrapper = mount(
+//         <MockedProvider mocks={[
+//             { request: { query, variables }, result: { data: mockedData }}
+//         ]}>
+//             <Home/>
+//         </MockedProvider>)
+//     // const renderedWrapper = mount(<Child/>)
+//     it('mockedprovider to have Home component', () => {
+//         expect(wrapper.contains(<Home />)).to.equal(true);
+//     });
+//     it('Rewrite btn to exist and work', () => {
+//         const rewriteBtn = mountedWrapper.find('.btn_rewrite')
+//         expect(rewriteBtn).to.have.length(1);
+//         mountedWrapper.find('textarea').get(0).value('this should be rewritten')
+//         rewriteBtn.simulate('click')
+//         expect(mountedWrapper.find('rewrite-result')).to.have.value('string')
+//     });
+//
+// })
 
 /*
 props appears to refer to properties on div in the child

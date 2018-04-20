@@ -10,6 +10,8 @@ import './mocha-setup'
 const document = jsdom.jsdom('<!doctype html><html><body></body></html>')
 const global = require("global");
 const window = document.defaultView
+require.extensions['.scss'] = ()=>null; //so ignores
+require.extensions['.css'] = ()=>null;
 
 global.window = window
 global.jQuery = require('jquery')

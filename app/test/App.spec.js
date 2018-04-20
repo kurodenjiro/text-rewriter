@@ -1,12 +1,13 @@
 import React from 'react';
 import App from '../src/App';
+import { MemoryRouter } from 'react-router'
 //TODO NEED TO SET UP browser router thing around app or something
 
 describe('App component', () => {
     it('should return true', ()=>{
         expect(true).to.equal(true);
     })
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(<MemoryRouter><App/></MemoryRouter>);
     //const mountedWrapper = mount(<App />)
     // const renderedWrapper = render(<App />)
 

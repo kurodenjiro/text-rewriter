@@ -1,1 +1,3 @@
 ignore styles: https://www.npmjs.com/package/ignore-styles
+ - https://stackoverflow.com/questions/32236443/mocha-testing-failed-due-to-css-in-webpack
+ - better to use require.extensions['.scss'] = ()=>null; in required file
