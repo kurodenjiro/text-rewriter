@@ -7,6 +7,8 @@ import jsdom from 'jsdom'
 import chai from "chai";
 import 'babel-polyfill'
 import './mocha-setup'
+require.extensions['.scss'] = ()=>null;
+require.extensions['.css'] = ()=>null;
 const document = jsdom.jsdom('<!doctype html><html><body></body></html>')
 const global = require("global");
 const window = document.defaultView

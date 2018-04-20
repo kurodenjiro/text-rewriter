@@ -13,8 +13,8 @@ describe('Server', () => {
                 //     res.to.have.status(201)
                 // }) //WORKED WHEN USED THE .END FUNCTIONALITY https://scotch.io/tutorials/test-a-node-restful-api-with-mocha-and-chai
                 .then(res => {
-                       expect(res).to.have.status(200)
-                    })
+                    expect(res).to.have.status(200)
+                })
         } else {
             return request(server)
                 .get('/graphql')

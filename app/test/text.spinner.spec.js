@@ -1,16 +1,16 @@
-import React from 'react';
-
-
-describe('Text Spinner', () => {
-
-    it('presents text spinner input', () =>{
-        const home = shallow(<Home store={fakeStore()} />),
-            unspunText = home.find('.ft-unspun-text');
-
-        expect(unspunText).to.have.length(1);
-    })
-
-});
+// import React from 'react';
+//
+//
+// describe('Text Spinner', () => {
+//
+//     it('presents text spinner input', () =>{
+//         const home = shallow(<Home store={fakeStore()} />),
+//             unspunText = home.find('.ft-unspun-text');
+//
+//         expect(unspunText).to.have.length(1);
+//     })
+//
+// });
 
 const fakeStore = (state = {}) => ({
     default: () => {},
