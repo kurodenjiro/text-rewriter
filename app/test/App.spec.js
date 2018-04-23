@@ -1,17 +1,15 @@
 import React from 'react';
 import App from '../src/App';
+import Footer from '../src/components/Footer'
 //TODO NEED TO SET UP browser router thing around app or something
 
 describe('App component', () => {
-    it('should return true', ()=>{
-        expect(true).to.equal(true);
-    })
     const wrapper = shallow(<App />);
-    //const mountedWrapper = mount(<App />)
-    // const renderedWrapper = render(<App />)
-
     it('should have a div wrapper', () => {
         expect(wrapper.type()).to.equal('div');
+    });
+    it('should have a Footer component', () => {
+        expect(wrapper.contains(<Footer />)).to.equal(true);
     });
     //
     // it('renders h1 contents', () => {

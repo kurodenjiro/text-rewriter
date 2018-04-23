@@ -6,9 +6,8 @@ import Home from '../src/components/Home';
 const defaultProps = {}
 
 describe('Home', () => {
-    it('should return true', ()=>{
-        expect(true).to.equal(true);
-    })
+    it('mockedprovider to have Home component', () => {})
+
     const mockedData = {
         LanguageCombinations: [
             { __typename: 'LanguageCombination', id: '1', processingLanguages: ['es'], language: 'en', avgRating: '3.2', ratingCount: 6, ratings: []}
