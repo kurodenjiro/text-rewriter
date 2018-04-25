@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js --exec babel-node --presents env",
+    "start": "nodemon server.js --exec babel-node",
     "test": "set NODE_ENV=test&& mocha --compilers js:babel-register --require ./test/helpers.js --recursive"
   },
   "author": "Kevin Danikowski",
