@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js --exec babel-node --presents env",
+    "deploy": "nodemon server.js --exec babel-node --presents env",
     "test": "set NODE_ENV=test&& mocha --compilers js:babel-register --require ./test/helpers.js --recursive"
   },
   "author": "Kevin Danikowski",
@@ -21,6 +22,7 @@
     "lodash": "^4.17.5",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.2",
+    "npm": "^6.0.1",
     "sequelize": "^4.33.4",
     "thesaurus": "0.0.0",
     "wordpos": "^1.1.6"

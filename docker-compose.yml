@@ -1,0 +1,23 @@
+version: '2'
+services:
+  app:
+    build: ./app
+    env_file: 
+      - ./.env
+    command: npm run deploy
+    volumes:
+      - ./app:/usr/app/
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      - api
+  api:
+    build: ./api
+    env_file: 
+      - ./.env
+    command: npm run deploy
+    volumes: 
+      - ./api:/usr/api/
+    ports: 
+      - "3306:3306"
+      - "${API_PORT}:${API_PORT}"
